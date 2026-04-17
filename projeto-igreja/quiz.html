@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Bíblico - Elim Church</title>
+    <style>
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --success: #27ae60;
+            --bg: #f0f2f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body { background-color: var(--bg); color: #333; display: flex; flex-direction: column; min-height: 100vh; }
+
+        header { background: var(--primary); color: white; padding: 30px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+
+        .container { max-width: 700px; margin: 40px auto; padding: 20px; width: 100%; }
+
+        /* Barra de Progresso */
+        .progress-container { background: #ddd; height: 10px; border-radius: 5px; margin-bottom: 30px; overflow: hidden; }
+        #progress-bar { background: var(--secondary); height: 100%; width: 0%; transition: 0.4s; }
+
+        /* Card do Quiz */
+        .quiz-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+
+        h2 { margin-bottom: 25px; font-size: 1.5rem; color: var(--primary); }
+
+        .options-grid { display: grid; gap: 15px; margin-top: 20px; }
+
+        .option-btn {
+            background: white; border: 2px solid #eee; padding: 15px; border-radius: 10px;
+            font-size: 1.1rem; cursor: pointer; transition: 0.2s; font-weight: 500;
+        }
+
+        .option-btn:hover { background: #f8f9fa; border-color: var(--primary); }
+        
+        /* Cores de Feedback */
+        .correct { background: var(--success) !important; color: white; border-color: var(--success) !important; }
+        .wrong { background: var(--secondary) !important; color: white; border-color: var(--secondary) !important; }
+
+        /* Tela de Resultado */
+        #result-screen { display: none; }
+        .score-circle { 
+            width: 150px; height: 150px; border-radius: 50%; border: 8px solid var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 2.5rem;
+            font-weight: bold; margin: 20px auto; color: var(--primary);
+        }
+
+        .btn-restart {
+            margin-top: 30px; background: var(--primary); color: white; border: none;
+            padding: 15px 40px; border-radius: 50px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-home { display: block; margin-top: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Desafio Bíblico Elim</h1>
+        <p>Baseado em nossos estudos semanais</p>
+    </header>
+
+    <div class="container">
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+
+        <div id="quiz-screen" class="quiz-card">
+            <h2 id="question-text">Carregando pergunta...</h2>
+            <div id="options-container" class="options-grid">
+                </div>
+        </div>
+
+        <div id="result-screen" class="quiz-card">
+            <h2>Desafio Concluído!</h2>
+            <div class="score-circle" id="score-display">0/0</div>
+            <p id="feedback-message">Ótimo trabalho!</p>
+            <button class="btn-restart" onclick="restartQuiz()">Tentar Novamente</button>
+            <a href="index.html" class="btn-home">Voltar para a Home</a>
+        </div>
+    </div>
+
+    <script>
+        // BANCO DE DADOS DAS PERGUNTAS (Você pode adicionar mais aqui!)
+        const questions = [
+            {
+                q: "Qual o tema do culto de Terça-Feira às 20:00h?",
+                options: ["Culto da Família", "Culto de Edificação", "Quinta POC", "Estudo de Jovens"],
+                correct: 1
+            },
+            {
+                q: "O que significa a sigla POC no culto de Quinta-Feira?",
+                options: ["Poder, Oração e Clamor", "Povo de Oração Cristã", "Poderosa Ordem de Cristo", "Palavra, Oração e Comunhão"],
+                correct: 0
+            },
+            {
+                q: "A que horas começa o Culto da Família aos Domingos?",
+                options: ["18:00h", "19:30h", "18:30h", "20:00h"],
+                correct: 2
+            },
+            {
+                q: "Em qual livro bíblico baseamos o estudo da 'Armadura de Deus'?",
+                options: ["Salmos", "Gênesis", "Efésios", "Apocalipse"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const qData = questions[currentQuestion];
+            document.getElementById("question-text").innerText = qData.q;
+            const optionsDiv = document.getElementById("options-container");
+            optionsDiv.innerHTML = "";
+
+            // Atualiza Barra de Progresso
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById("progress-bar").style.width = progress + "%";
+
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.innerText = opt;
+                btn.classList.add("option-btn");
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btn) {
+            const correct = questions[currentQuestion].correct;
+            const allButtons = document.querySelectorAll(".option-btn");
+            
+            // Bloqueia cliques extras
+            allButtons.forEach(b => b.style.pointerEvents = "none");
+
+            if (selected === correct) {
+                btn.classList.add("correct");
+                score++;
+            } else {
+                btn.classList.add("wrong");
+                allButtons[correct].classList.add("correct");
+            }
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        function showResult() {
+            document.getElementById("quiz-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
+            document.getElementById("progress-bar").style.width = "100%";
+            document.getElementById("score-display").innerText = `${score}/${questions.length}`;
+            
+            let msg = "";
+            if(score === questions.length) msg = "Excelente! Você conhece bem a nossa igreja!";
+            else if(score >= questions.length/2) msg = "Muito bom! Continue estudando a Palavra.";
+            else msg = "Que tal ler os nossos estudos e tentar de novo?";
+            
+            document.getElementById("feedback-message").innerText = msg;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById("quiz-screen").style.display = "block";
+            document.getElementById("result-screen").style.display = "none";
+            loadQuestion();
+        }
+
+        // Iniciar o Quiz
+        loadQuestion();
+    </script>
+</body>
+</html>

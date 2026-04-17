@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudos Bíblicos - Elim Church</title>
+    <style>
+        /* CSS EMBUTIDO - ESTILO AVANÇADO */
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+
+        /* Cabeçalho Diferenciado */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2a48ad 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container { max-width: 1100px; margin: -40px auto 40px; padding: 0 20px; }
+
+        /* Card de Destaque (Versículo do Dia) */
+        .versiculo-dia {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 4px solid var(--secondary);
+        }
+
+        .versiculo-dia em { font-size: 1.2rem; color: #555; display: block; margin-bottom: 10px; }
+        .versiculo-dia strong { color: var(--primary); }
+
+        /* Grade de Estudos */
+        .grid-estudos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card-estudo {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-estudo:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+        .card-image {
+            height: 150px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .card-content { padding: 20px; flex-grow: 1; }
+        .card-content h3 { color: var(--primary); margin-bottom: 10px; }
+        .card-content p { font-size: 0.95rem; color: #666; margin-bottom: 15px; }
+
+        .tag {
+            display: inline-block;
+            background: #eee;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .ler-mais {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Rodapé de Navegação */
+        .footer-nav {
+            margin-top: 50px;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .btn-voltar {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { background: var(--secondary); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Biblioteca de Estudos</h1>
+        <p>Elim Church CasaBlanca</p>
+    </header>
+
+    <div class="container">
+        <section class="versiculo-dia">
+            <em>"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."</em>
+            <strong>Salmos 119:105</strong>
+        </section>
+
+        <main class="grid-estudos">
+            
+            <article class="card-estudo">
+                <div class="card-image" style="background: #2c3e50;">📖</div>
+                <div class="card-content">
+                    <span class="tag">FUNDAMENTOS</span>
+                    <h3>A Base da Nossa Fé</h3>
+                    <p>Entenda os pilares que sustentam a Elim Church e como a doutrina molda nosso caráter cristão.</p>
+                    <a href="#" class="ler-mais">Ler Estudo Completo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image" style="background: #b21f1f;">🔥</div>
+                <div class="card-content">
+                    <span class="tag">QUINTA POC</span>
+                    <h3>O Poder da Intercessão</h3>
+                    <p>Por que oramos uns pelos outros? Aprenda a importância do clamor coletivo e os exemplos bíblicos de resposta.</p>
+                    <a href="#" class="ler-mais">Ler Estudo Completo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image" style="background: #1a2a6c;">🛡️</div>
+                <div class="card-content">
+                    <span class="tag">VIDA CRISTÃ</span>
+                    <h3>A Armadura de Deus</h3>
+                    <p>Baseado em Efésios 6. Como se preparar para as batalhas espirituais do dia a dia no mundo moderno.</p>
+                    <a href="#" class="ler-mais">Ler Estudo Completo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image" style="background: #27ae60;">👨‍👩‍👧‍👦</div>
+                <div class="card-content">
+                    <span class="tag">FAMÍLIA</span>
+                    <h3>Edificando o Lar</h3>
+                    <p>Dicas bíblicas para um casamento fortalecido e para a criação de filhos nos caminhos do Senhor.</p>
+                    <a href="#" class="ler-mais">Ler Estudo Completo →</a>
+                </div>
+            </article>
+
+        </main>
+
+        <nav class="footer-nav">
+            <a href="index.html" class="btn-voltar">← Voltar para a Home</a>
+        </nav>
+    </div>
+
+</body>
+</html>

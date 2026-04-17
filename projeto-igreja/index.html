@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elim Church CasaBlanca</title>
+    
+    <style>
+        /* O CSS ESTÁ AQUI DENTRO, NÃO PRECISA DE OUTRO ARQUIVO */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background-color: #f4f4f4; text-align: center; }
+        
+        header { background-color: #1a2a6c; color: white; padding: 40px; border-bottom: 5px solid #b21f1f; }
+        
+        .container { padding: 40px 20px; max-width: 900px; margin: auto; }
+        
+        .grid-cultos { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px 0; }
+        
+        .card { background: white; padding: 20px; border-radius: 10px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .card h3 { color: #1a2a6c; margin-bottom: 10px; }
+        .hora { font-weight: bold; font-size: 1.2rem; color: #b21f1f; }
+
+        .botoes { margin-top: 30px; }
+        .btn { display: inline-block; padding: 15px 30px; margin: 10px; text-decoration: none; border-radius: 5px; font-weight: bold; color: white; }
+        .btn-estudo { background-color: #1a2a6c; }
+        .btn-quiz { background-color: #b21f1f; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Elim Church CasaBlanca</h1>
+        <p>Cultos, Adoração e Palavra</p>
+    </header>
+
+    <div class="container">
+        <h2>Bem-vindos ao nosso site!</h2>
+        
+        <div class="grid-cultos">
+            <div class="card">
+                <h3>Terça-Feira</h3>
+                <p>Culto de Edificação</p>
+                <p class="hora">20:00h</p>
+            </div>
+            <div class="card">
+                <h3>Quinta-Feira</h3>
+                <p>Quinta POC</p>
+                <p class="hora">20:00h</p>
+            </div>
+            <div class="card">
+                <h3>Domingo</h3>
+                <p>Culto da Família</p>
+                <p class="hora">18:30h</p>
+            </div>
+        </div>
+
+        <div class="botoes">
+            <a href="estudos.html" class="btn btn-estudo">Ir para Estudos</a>
+            <a href="quiz.html" class="btn btn-quiz">Ir para Quiz</a>
+        </div>
+    </div>
+
+</body>
+</html>
