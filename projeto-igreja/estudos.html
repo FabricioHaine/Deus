@@ -13,7 +13,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-
         body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
 
         header {
@@ -48,66 +47,32 @@
             overflow: hidden;
             transition: 0.3s;
             border: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
 
         .card-estudo:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
 
-        .card-image {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-        }
+        .card-image { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: #f0f2f5; }
 
-        .card-content { padding: 20px; flex-grow: 1; }
-        .card-content h3 { color: var(--primary); margin-bottom: 10px; }
-        .card-content p { font-size: 0.95rem; color: #666; margin-bottom: 15px; }
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-content h3 { color: var(--primary); margin-bottom: 10px; font-size: 1.2rem; }
+        .card-content p { font-size: 0.9rem; color: #666; margin-bottom: 20px; flex-grow: 1; }
 
         .tag {
-            display: inline-block;
-            background: #eee;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            color: var(--secondary);
-            font-weight: bold;
+            display: inline-block; background: #eee; padding: 4px 10px; border-radius: 20px;
+            font-size: 0.75rem; margin-bottom: 10px; color: var(--secondary); font-weight: bold;
         }
 
         .ler-mais {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            border: 1px solid var(--primary);
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: 0.3s;
+            text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.85rem;
+            text-transform: uppercase; border: 1px solid var(--primary); padding: 10px;
+            border-radius: 5px; text-align: center; transition: 0.3s;
         }
 
-        .ler-mais:hover {
-            background: var(--primary);
-            color: white;
-        }
+        .ler-mais:hover { background: var(--primary); color: white; }
 
-        .footer-nav {
-            margin-top: 50px;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .btn-voltar {
-            padding: 12px 30px;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-        }
+        .footer-nav { margin-top: 50px; text-align: center; padding: 40px; }
+        .btn-voltar { padding: 12px 30px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -126,32 +91,92 @@
         <main class="grid-estudos">
             
             <article class="card-estudo">
-                <div class="card-image" style="background: #eef2ff;">📖</div>
+                <div class="card-image">📖</div>
                 <div class="card-content">
-                    <span class="tag">CRONOLOGIA 01</span>
+                    <span class="tag">01</span>
                     <h3>O Verbo Eterno</h3>
-                    <p>O início de tudo na eternidade. Entenda quem é o Verbo e sua divindade em João 1:1.</p>
-                    <a href="estudo-joao.html" class="ler-mais">Ler Estudo Completo →</a>
+                    <p>A existência de Jesus antes da criação.</p>
+                    <a href="estudo-joao.html" class="ler-mais">Abrir Estudo →</a>
                 </div>
             </article>
 
             <article class="card-estudo">
-                <div class="card-image" style="background: #fff5f5;">🌍</div>
+                <div class="card-image">🌍</div>
                 <div class="card-content">
-                    <span class="tag">CRONOLOGIA 02</span>
-                    <h3>A Criação do Mundo</h3>
-                    <p>Como o Deus eterno trouxe a existência o céu, a terra e tudo o que neles há.</p>
-                    <a href="estudo-criacao.html" class="ler-mais">Ler Estudo Completo →</a>
+                    <span class="tag">02</span>
+                    <h3>A Criação</h3>
+                    <p>Gênesis 1:1 - O início do mundo e da vida.</p>
+                    <a href="./estudo-criaçao.html" class="ler-mais">Abrir Estudo →</a>
                 </div>
             </article>
 
             <article class="card-estudo">
-                <div class="card-image" style="background: #f0fff4;">🍎</div>
+                <div class="card-image">🍎</div>
                 <div class="card-content">
-                    <span class="tag">CRONOLOGIA 03</span>
-                    <h3>A Queda do Homem</h3>
-                    <p>O momento em que o pecado entrou no mundo e a promessa da redenção começou.</p>
-                    <a href="#" class="ler-mais">Em breve...</a>
+                    <span class="tag">03</span>
+                    <h3>A Queda</h3>
+                    <p>O pecado e a primeira promessa do Salvador.</p>
+                    <a href="estudo-queda.html" class="ler-mais">Abrir Estudo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image">🚢</div>
+                <div class="card-content">
+                    <span class="tag">04</span>
+                    <h3>O Dilúvio</h3>
+                    <p>A história de Noé e o novo começo.</p>
+                    <a href="estudo-diluvio.html" class="ler-mais">Abrir Estudo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image">🌟</div>
+                <div class="card-content">
+                    <span class="tag">05</span>
+                    <h3>A Chamada da Fé</h3>
+                    <p>Deus chama Abraão para uma grande nação.</p>
+                    <a href="estudo-abraao.html" class="ler-mais">Abrir Estudo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image">👑</div>
+                <div class="card-content">
+                    <span class="tag">06</span>
+                    <h3>José no Egito</h3>
+                    <p>Deus usa José para preservar Seu povo.</p>
+                    <a href="estudo-jose.html" class="ler-mais">Abrir Estudo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image">🌊</div>
+                <div class="card-content">
+                    <span class="tag">07</span>
+                    <h3>O Êxodo</h3>
+                    <p>Moisés e a libertação da escravidão.</p>
+                    <a href="estudo-exodo.html" class="ler-mais">Abrir Estudo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image">📜</div>
+                <div class="card-content">
+                    <span class="tag">08</span>
+                    <h3>Os Dez Mandamentos</h3>
+                    <p>A Lei e a Aliança no Monte Sinai.</p>
+                    <a href="estudo-lei.html" class="ler-mais">Abrir Estudo →</a>
+                </div>
+            </article>
+
+            <article class="card-estudo">
+                <div class="card-image">⚔️</div>
+                <div class="card-content">
+                    <span class="tag">09</span>
+                    <h3>Josué e a Conquista</h3>
+                    <p>A entrada na Terra Prometida.</p>
+                    <a href="estudo-josue.html" class="ler-mais">Abrir Estudo →</a>
                 </div>
             </article>
 
