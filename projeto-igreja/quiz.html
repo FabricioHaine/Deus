@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Bíblico: Da Eternidade à Terra Prometida</title>
+    <title>Quiz Bíblico Dinâmico - Elim Church</title>
     <style>
         :root {
             --primary: #1a2a6c;
@@ -22,10 +22,24 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         header { text-align: center; margin-bottom: 30px; }
-        h1 { color: var(--primary); margin-bottom: 10px; }
+        h1 { color: var(--primary); margin-bottom: 5px; }
+        .badge-info { font-size: 0.8rem; color: #666; font-style: italic; }
+
+        .btn-sair-topo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            color: #999;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .btn-sair-topo:hover { color: var(--secondary); }
 
         .question { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; color: var(--dark); }
 
@@ -60,69 +74,71 @@
         }
 
         .result-screen { text-align: center; display: none; }
-        .score { font-size: 2.5rem; color: var(--secondary); font-weight: bold; margin: 20px 0; }
-        .btn-home { 
+        .score { font-size: 3rem; color: var(--secondary); font-weight: bold; margin: 20px 0; }
+        
+        .btn-restart { 
             display: inline-block; padding: 12px 25px; background: var(--primary); 
             color: white; text-decoration: none; border-radius: 5px; font-weight: bold;
+            cursor: pointer; margin: 10px 5px; border: none;
         }
+
+        .btn-home-final {
+            display: inline-block; padding: 12px 25px; background: transparent; 
+            color: var(--primary); text-decoration: none; border: 2px solid var(--primary);
+            border-radius: 5px; font-weight: bold; margin: 10px 5px; transition: 0.3s;
+        }
+
+        .btn-home-final:hover { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
 
     <div class="quiz-container">
+        <a href="index.html" class="btn-sair-topo">SAIR ✕</a>
+
         <header>
-            <h1>Desafio da Fé</h1>
-            <p>Capítulos 1 ao 9: A Conquista</p>
+            <h1>Desafio Elim</h1>
+            <p class="badge-info">6 perguntas aleatórias sobre a Cronologia</p>
         </header>
 
         <div id="quiz">
-            <div class="question" id="question">Carregando...</div>
+            <div class="question" id="question">Preparando perguntas...</div>
             <div class="options" id="options"></div>
             <button id="next-btn">Próxima Pergunta</button>
         </div>
 
         <div class="result-screen" id="result-screen">
-            <h2>Excelente Caminhada!</h2>
-            <p>Você completou a primeira parte da cronologia:</p>
-            <div class="score" id="final-score">0 / 0</div>
-            <a href="estudos.html" class="btn-home">Voltar para Estudos</a>
+            <h2>Fim do Desafio!</h2>
+            <p>Sua pontuação nesta rodada:</p>
+            <div class="score" id="final-score">0 / 6</div>
+            
+            <button onclick="location.reload()" class="btn-restart">Tentar Novamente</button>
+            <a href="index.html" class="btn-home-final">Página Inicial</a>
+            <br>
+            <a href="estudos.html" style="display:inline-block; margin-top:20px; color: #666; text-decoration: none; font-size: 0.9rem;">← Voltar para Estudos</a>
         </div>
     </div>
 
     <script>
-        const questions = [
-            {
-                q: "Segundo João 1:1, quem estava com Deus no princípio?",
-                options: ["O Verbo", "Os anjos", "Adão", "Abraão"],
-                answer: 0
-            },
-            {
-                q: "Qual sinal Deus deu a Noé após o Dilúvio como promessa de que não destruiria a terra novamente?",
-                options: ["Um pombo", "Um arco-íris", "Uma oliveira", "Um altar"],
-                answer: 1
-            },
-            {
-                q: "A quem Deus prometeu que sua descendência seria como as estrelas do céu?",
-                options: ["José", "Isaque", "Jacó", "Abraão"],
-                answer: 3
-            },
-            {
-                q: "José foi vendido como escravo para qual país?",
-                options: ["Babilônia", "Assíria", "Egito", "Canaã"],
-                answer: 2
-            },
-            {
-                q: "No Monte Sinai, quantos foram os mandamentos principais entregues a Moisés?",
-                options: ["5 mandamentos", "7 mandamentos", "10 mandamentos", "12 mandamentos"],
-                answer: 2
-            },
-            {
-                q: "Qual foi o sucessor de Moisés que liderou o povo na conquista das muralhas de Jericó?",
-                options: ["Calebe", "Samuel", "Saul", "Josué"],
-                answer: 3
-            }
+        const allQuestions = [
+            { q: "Segundo João 1:1, quem é o Verbo?", options: ["Jesus", "Pedro", "Anjo Gabriel", "Moisés"], answer: 0 },
+            { q: "Em qual dia da criação Deus criou o homem?", options: ["4º dia", "5º dia", "6º dia", "7º dia"], answer: 2 },
+            { q: "Qual foi o castigo para a serpente no Éden?", options: ["Perder as asas", "Rastejar e comer pó", "Falar línguas", "Viver no mar"], answer: 1 },
+            { q: "Quanto tempo durou a chuva do Dilúvio?", options: ["7 dias", "12 dias", "40 dias e 40 noites", "100 dias"], answer: 2 },
+            { q: "Qual era o nome da esposa de Abraão?", options: ["Raquel", "Sara", "Rebeca", "Lia"], answer: 1 },
+            { q: "José foi vendido por seus irmãos por quantas moedas de prata?", options: ["10", "20", "30", "50"], answer: 1 },
+            { q: "Qual o nome do mar que se abriu para o povo de Israel passar?", options: ["Mar Morto", "Mar da Galileia", "Mar Vermelho", "Mar Mediterrâneo"], answer: 2 },
+            { q: "Qual mandamento diz para 'Honrar pai e mãe'?", options: ["3º", "5º", "1º", "10º"], answer: 1 },
+            { q: "Quem subiu ao Monte Sinai para receber as Tábuas da Lei?", options: ["Arão", "Josué", "Moisés", "Calebe"], answer: 2 },
+            { q: "Quantas vezes o povo rodeou Jericó no último dia?", options: ["1 vez", "3 vezes", "7 vezes", "12 vezes"], answer: 2 },
+            { q: "Qual cidade teve suas muralhas derrubadas pelo som de trombetas?", options: ["Jerusalém", "Jericó", "Belém", "Sodoma"], answer: 1 },
+            { q: "Quem foi o companheiro de Josué que também entrou na terra prometida?", options: ["Moisés", "Calebe", "Gideão", "Enoque"], answer: 1 },
+            { q: "Qual praga transformou a água do Egito em sangue?", options: ["A primeira", "A quinta", "A última", "A terceira"], answer: 0 },
+            { q: "O que Noé soltou da arca para ver se a terra estava seca?", options: ["Uma águia", "Um pombo", "Um falcão", "Um pardal"], answer: 1 },
+            { q: "Qual o nome do filho da promessa de Abraão e Sara?", options: ["Ismael", "Isaque", "Esaú", "Jacó"], answer: 1 }
         ];
 
+        let selectedQuestions = [];
         let currentQuestion = 0;
         let score = 0;
 
@@ -133,8 +149,14 @@
         const resultScreen = document.getElementById('result-screen');
         const finalScoreEl = document.getElementById('final-score');
 
+        function initQuiz() {
+            let shuffled = allQuestions.sort(() => 0.5 - Math.random());
+            selectedQuestions = shuffled.slice(0, 6);
+            loadQuestion();
+        }
+
         function loadQuestion() {
-            const qData = questions[currentQuestion];
+            const qData = selectedQuestions[currentQuestion];
             questionEl.innerText = qData.q;
             optionsEl.innerHTML = "";
             nextBtn.style.display = "none";
@@ -149,9 +171,8 @@
         }
 
         function selectOption(index, btn) {
-            const correct = questions[currentQuestion].answer;
+            const correct = selectedQuestions[currentQuestion].answer;
             const allBtns = document.querySelectorAll('.option-btn');
-            
             allBtns.forEach(b => b.disabled = true);
 
             if (index === correct) {
@@ -166,7 +187,7 @@
 
         nextBtn.onclick = () => {
             currentQuestion++;
-            if (currentQuestion < questions.length) {
+            if (currentQuestion < selectedQuestions.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -176,10 +197,10 @@
         function showResults() {
             quizDiv.style.display = "none";
             resultScreen.style.display = "block";
-            finalScoreEl.innerText = score + " / " + questions.length;
+            finalScoreEl.innerText = score + " / " + selectedQuestions.length;
         }
 
-        loadQuestion();
+        initQuiz();
     </script>
 </body>
 </html>
