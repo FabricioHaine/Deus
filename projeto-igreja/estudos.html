@@ -3,188 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudos Bíblicos - Elim Church</title>
+    <title>Biblioteca de Estudos - Elim Church</title>
     <style>
         :root {
-            --primary: #1a2a6c;
-            --secondary: #b21f1f;
-            --light: #f8f9fa;
-            --dark: #2d3436;
+            --azul-escuro: #1a2a6c;
+            --turquesa: #00e5ff;
+            --branco: #ffffff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, var(--azul-escuro) 0%, #0a1128 100%);
+            min-height: 100vh;
+            color: var(--branco);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
 
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, #2a48ad 100%);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .container { max-width: 1100px; margin: -40px auto 40px; padding: 0 20px; }
-
-        .versiculo-dia {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
             margin-bottom: 40px;
-            border-bottom: 4px solid var(--secondary);
+            border-left: 4px solid var(--turquesa);
+            padding-left: 20px;
         }
+
+        header h1 {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--turquesa);
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: var(--turquesa);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { transform: translateX(-5px); color: white; }
 
         .grid-estudos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .estudo-link {
+            text-decoration: none;
+            color: inherit;
         }
 
         .card-estudo {
-            background: white;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 25px;
             border-radius: 12px;
-            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             transition: 0.3s;
-            border: 1px solid #eee;
-            display: flex; flex-direction: column;
+            backdrop-filter: blur(10px);
         }
 
-        .card-estudo:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-
-        .card-image { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: #f0f2f5; }
-
-        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-content h3 { color: var(--primary); margin-bottom: 10px; font-size: 1.2rem; }
-        .card-content p { font-size: 0.9rem; color: #666; margin-bottom: 20px; flex-grow: 1; }
-
-        .tag {
-            display: inline-block; background: #eee; padding: 4px 10px; border-radius: 20px;
-            font-size: 0.75rem; margin-bottom: 10px; color: var(--secondary); font-weight: bold;
+        .card-estudo:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--turquesa);
+            transform: scale(1.01);
         }
 
-        .ler-mais {
-            text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.85rem;
-            text-transform: uppercase; border: 1px solid var(--primary); padding: 10px;
-            border-radius: 5px; text-align: center; transition: 0.3s;
+        .numero {
+            font-size: 0.75rem;
+            color: var(--turquesa);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 3px;
         }
 
-        .ler-mais:hover { background: var(--primary); color: white; }
+        .titulo-estudo {
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
 
-        .footer-nav { margin-top: 50px; text-align: center; padding: 40px; }
-        .btn-voltar { padding: 12px 30px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
+        .seta { font-size: 1.2rem; color: var(--turquesa); opacity: 0.7; }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            opacity: 0.4;
+            font-size: 0.8rem;
+            padding-bottom: 40px;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Biblioteca de Estudos</h1>
-        <p>Cronologia Bíblica - Elim Church CasaBlanca</p>
-    </header>
-
     <div class="container">
-        <section class="versiculo-dia">
-            <em>"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."</em>
-            <strong>Salmos 119:105</strong>
-        </section>
+        <a href="index.html" class="btn-voltar">← VOLTAR PARA O INÍCIO</a>
+        
+        <header>
+            <h1>Cronologia Bíblica</h1>
+            <p>A História da Redenção em ordem cronológica.</p>
+        </header>
 
-        <main class="grid-estudos">
+        <div class="grid-estudos">
             
-            <article class="card-estudo">
-                <div class="card-image">📖</div>
-                <div class="card-content">
-                    <span class="tag">01</span>
-                    <h3>O Verbo Eterno</h3>
-                    <p>A existência de Jesus antes da criação.</p>
-                    <a href="estudo-joao.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-verbo.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 01</span><div class="titulo-estudo">O Verbo: Antes do Princípio</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">🌍</div>
-                <div class="card-content">
-                    <span class="tag">02</span>
-                    <h3>A Criação</h3>
-                    <p>Gênesis 1:1 - O início do mundo e da vida.</p>
-                    <a href="./estudo-criaçao.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-criacao.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 02</span><div class="titulo-estudo">A Criação e a Queda</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">🍎</div>
-                <div class="card-content">
-                    <span class="tag">03</span>
-                    <h3>A Queda</h3>
-                    <p>O pecado e a primeira promessa do Salvador.</p>
-                    <a href="estudo-queda.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-diluvio.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 03</span><div class="titulo-estudo">Noé e o Dilúvio</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">🚢</div>
-                <div class="card-content">
-                    <span class="tag">04</span>
-                    <h3>O Dilúvio</h3>
-                    <p>A história de Noé e o novo começo.</p>
-                    <a href="estudo-diluvio.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-abraao.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 04</span><div class="titulo-estudo">Abraão: O Pai da Fé</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">🌟</div>
-                <div class="card-content">
-                    <span class="tag">05</span>
-                    <h3>A Chamada da Fé</h3>
-                    <p>Deus chama Abraão para uma grande nação.</p>
-                    <a href="estudo-abraao.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-israelemegito.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 05</span><div class="titulo-estudo">Os Patriarcas e o Egito</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">👑</div>
-                <div class="card-content">
-                    <span class="tag">06</span>
-                    <h3>José no Egito</h3>
-                    <p>Deus usa José para preservar Seu povo.</p>
-                    <a href="estudo-jose.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-exodo.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 06</span><div class="titulo-estudo">Moisés e o Êxodo</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">🌊</div>
-                <div class="card-content">
-                    <span class="tag">07</span>
-                    <h3>O Êxodo</h3>
-                    <p>Moisés e a libertação da escravidão.</p>
-                    <a href="estudo-exodo.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-lei.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 07</span><div class="titulo-estudo">A Lei e o Tabernáculo</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">📜</div>
-                <div class="card-content">
-                    <span class="tag">08</span>
-                    <h3>Os Dez Mandamentos</h3>
-                    <p>A Lei e a Aliança no Monte Sinai.</p>
-                    <a href="estudo-lei.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-deserto.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 08</span><div class="titulo-estudo">A Peregrinação no Deserto</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-            <article class="card-estudo">
-                <div class="card-image">⚔️</div>
-                <div class="card-content">
-                    <span class="tag">09</span>
-                    <h3>Josué e a Conquista</h3>
-                    <p>A entrada na Terra Prometida.</p>
-                    <a href="estudo-josue.html" class="ler-mais">Abrir Estudo →</a>
+            <a href="estudo-josue.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 09</span><div class="titulo-estudo">Josué e a Conquista</div></div>
+                    <div class="seta">➔</div>
                 </div>
-            </article>
+            </a>
 
-        </main>
+            <a href="estudo-juizes.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 10</span><div class="titulo-estudo">O Período dos Juízes</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
 
-        <nav class="footer-nav">
-            <a href="index.html" class="btn-voltar">← Voltar para a Home</a>
-        </nav>
+            <a href="estudo-reinos.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 11</span><div class="titulo-estudo">Saul, Davi e Salomão</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
+
+        </div>
+
+        <footer>
+            <p>Elim Church CasaBlanca — "Onde há fontes e palmeiras."</p>
+        </footer>
     </div>
 
 </body>

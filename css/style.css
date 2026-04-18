@@ -73,3 +73,21 @@ footer {
     padding: 20px;
     margin-top: 40px;
 }
+
+header { 
+    background: #1a2a6c; 
+    color: white; 
+    padding: 50px 20px; /* Aumentei o espaço em cima e embaixo */
+    text-align: center; 
+}
+
+.logo {
+    width: 250px; /* Tamanho aumentado para maior destaque */
+    height: auto; 
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* Opcional: Adiciona um leve brilho se a logo for branca */
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2)); 
+}
