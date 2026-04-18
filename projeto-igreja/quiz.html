@@ -121,6 +121,7 @@
 
     <script>
         const allQuestions = [
+            // CAPÍTULOS INICIAIS
             { q: "Segundo João 1:1, quem é o Verbo?", options: ["Jesus", "Pedro", "Anjo Gabriel", "Moisés"], answer: 0 },
             { q: "Em qual dia da criação Deus criou o homem?", options: ["4º dia", "5º dia", "6º dia", "7º dia"], answer: 2 },
             { q: "Qual foi o castigo para a serpente no Éden?", options: ["Perder as asas", "Rastejar e comer pó", "Falar línguas", "Viver no mar"], answer: 1 },
@@ -135,7 +136,26 @@
             { q: "Quem foi o companheiro de Josué que também entrou na terra prometida?", options: ["Moisés", "Calebe", "Gideão", "Enoque"], answer: 1 },
             { q: "Qual praga transformou a água do Egito em sangue?", options: ["A primeira", "A quinta", "A última", "A terceira"], answer: 0 },
             { q: "O que Noé soltou da arca para ver se a terra estava seca?", options: ["Uma águia", "Um pombo", "Um falcão", "Um pardal"], answer: 1 },
-            { q: "Qual o nome do filho da promessa de Abraão e Sara?", options: ["Ismael", "Isaque", "Esaú", "Jacó"], answer: 1 }
+            { q: "Qual o nome do filho da promessa de Abraão e Sara?", options: ["Ismael", "Isaque", "Esaú", "Jacó"], answer: 1 },
+
+            // REINO DIVIDIDO, PROFETAS E EXÍLIO
+            { q: "Quem foi o primeiro rei do Reino do Norte (Israel) após a divisão?", options: ["Roboão", "Jeroboão", "Acabe", "Jeú"], answer: 1 },
+            { q: "Qual profeta desafiou os profetas de Baal no Monte Carmelo?", options: ["Isaías", "Ezequiel", "Elias", "Eliseu"], answer: 2 },
+            { q: "Para qual cidade o povo de Judá foi levado cativo?", options: ["Nínive", "Babilônia", "Roma", "Cairo"], answer: 1 },
+            { q: "Quem era o rei da Babilônia quando Jerusalém foi destruída?", options: ["Ciro", "Dário", "Nabucodonosor", "Artaxerxes"], answer: 2 },
+            { q: "Qual profeta teve a visão do vale de ossos secos?", options: ["Jeremias", "Ezequiel", "Daniel", "Amós"], answer: 1 },
+            { q: "Quem liderou a reconstrução dos muros de Jerusalém?", options: ["Esdras", "Neemias", "Zorobabel", "Malaquias"], answer: 1 },
+
+            // JESUS E A IGREJA
+            { q: "Em qual cidade Jesus nasceu?", options: ["Nazaré", "Jerusalém", "Belém", "Jericó"], answer: 2 },
+            { q: "Quem foi o precursor de Jesus, que pregava no deserto?", options: ["Tiago", "João Batista", "André", "Filipe"], answer: 1 },
+            { q: "Qual foi o primeiro milagre registrado de Jesus?", options: ["Cura de um cego", "Multiplicação de pães", "Água em vinho", "Andar sobre as águas"], answer: 2 },
+            { q: "Quem traiu Jesus por 30 moedas de prata?", options: ["Pedro", "Tomé", "Judas Iscariotes", "Mateus"], answer: 2 },
+            { q: "Quantos dias após a ressurreição Jesus subiu aos céus?", options: ["3 dias", "7 dias", "40 dias", "50 dias"], answer: 2 },
+            { q: "Em qual evento o Espírito Santo desceu sobre os discípulos?", options: ["Páscoa", "Pentecostes", "Tabernáculos", "Expiação"], answer: 1 },
+            { q: "Qual apóstolo pregou o primeiro sermão no dia de Pentecostes?", options: ["João", "Tiago", "Pedro", "Paulo"], answer: 2 },
+            { q: "Qual era a profissão de Pedro antes de seguir Jesus?", options: ["Cobrador de impostos", "Carpinteiro", "Pescador", "Pastor"], answer: 2 },
+            { q: "Quem escreveu a maior parte das epístolas no Novo Testamento?", options: ["Pedro", "João", "Lucas", "Paulo"], answer: 3 }
         ];
 
         let selectedQuestions = [];
@@ -150,6 +170,7 @@
         const finalScoreEl = document.getElementById('final-score');
 
         function initQuiz() {
+            // Embaralha todas as perguntas e pega apenas 6
             let shuffled = allQuestions.sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, 6);
             loadQuestion();
@@ -173,6 +194,8 @@
         function selectOption(index, btn) {
             const correct = selectedQuestions[currentQuestion].answer;
             const allBtns = document.querySelectorAll('.option-btn');
+            
+            // Desabilita todos após a escolha
             allBtns.forEach(b => b.disabled = true);
 
             if (index === correct) {
