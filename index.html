@@ -76,7 +76,7 @@
             margin-bottom: 10px;
         }
 
-        /* MENU EM GRID */
+        /* MENU EM GRID ATUALIZADO PARA 3 ITENS */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -105,6 +105,12 @@
             box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
         }
 
+        /* Card especial para a História */
+        .card-destaque:hover {
+            border-color: #ffab00;
+            box-shadow: 0 15px 40px rgba(255, 171, 0, 0.3);
+        }
+
         .card-icon {
             font-size: 3.5rem;
             margin-bottom: 15px;
@@ -124,12 +130,11 @@
 
         footer {
             margin-top: auto;
-            padding: 30px;
+            padding: 40px 30px;
             font-size: 0.8rem;
             opacity: 0.6;
         }
 
-        /* RESPONSIVIDADE */
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; }
             .logo-img { width: 140px; height: 140px; }
@@ -142,23 +147,29 @@
 
     <div class="main-container">
         <header class="logo-container">
-          <img src="../img/elim01.png" alt="Elim Church" class="logo">
+            <img src="img/elim01.png" alt="Elim Church" class="logo-img">
             <h1>Elim Church</h1>
             <p class="subtitulo">CasaBlanca</p>
             <p>Um Oásis de Palavra e Vida</p>
         </header>
 
         <nav class="menu-grid">
+            <a href="./projeto-igreja/historia-elim.html" class="card card-destaque">
+                <div class="card-icon">🏛️</div>
+                <h2>Nossa História</h2>
+                <p>Conheça a visão e o propósito do Ministério Elim Church Mundial.</p>
+            </a>
+
             <a href="./projeto-igreja/estudos.html" class="card">
                 <div class="card-icon">📚</div>
                 <h2>Biblioteca</h2>
-                <p>Navegue pela cronologia bíblica, do Verbo até a Conquista.</p>
+                <p>Navegue pela cronologia bíblica, do Verbo até a Igreja.</p>
             </a>
 
             <a href="./projeto-igreja/quiz.html" class="card">
                 <div class="card-icon">🧩</div>
                 <h2>Desafio Quiz</h2>
-                <p>Teste seus conhecimentos com 6 questões aleatórias.</p>
+                <p>Teste seus conhecimentos com questões aleatórias sobre os temas.</p>
             </a>
         </nav>
 
