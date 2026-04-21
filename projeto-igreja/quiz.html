@@ -10,6 +10,7 @@
             --secondary: #b21f1f;
             --light: #f8f9fa;
             --dark: #2d3436;
+            --accent: #00e5ff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
@@ -87,8 +88,6 @@
             color: var(--primary); text-decoration: none; border: 2px solid var(--primary);
             border-radius: 5px; font-weight: bold; margin: 10px 5px; transition: 0.3s;
         }
-
-        .btn-home-final:hover { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
@@ -98,7 +97,7 @@
 
         <header>
             <h1>Desafio Elim</h1>
-            <p class="badge-info">6 perguntas aleatórias sobre a Cronologia</p>
+            <p class="badge-info">10 perguntas aleatórias do nosso banco de dados</p>
         </header>
 
         <div id="quiz">
@@ -109,78 +108,87 @@
 
         <div class="result-screen" id="result-screen">
             <h2>Fim do Desafio!</h2>
-            <p>Sua pontuação nesta rodada:</p>
-            <div class="score" id="final-score">0 / 6</div>
-            
+            <div class="score" id="final-score">0 / 10</div>
             <button onclick="location.reload()" class="btn-restart">Tentar Novamente</button>
-            <a href="../index.html" class="btn-home-final">Página Inicial</a>
-            <br>
-            <a href="estudos.html" style="display:inline-block; margin-top:20px; color: #666; text-decoration: none; font-size: 0.9rem;">← Voltar para Estudos</a>
+            <a href="../index.html" class="btn-home-final">Início</a>
         </div>
     </div>
 
     <script>
         const allQuestions = [
-            // CAPÍTULOS INICIAIS
-            { q: "Segundo João 1:1, quem é o Verbo?", options: ["Jesus", "Pedro", "Anjo Gabriel", "Moisés"], answer: 0 },
-            { q: "Em qual dia da criação Deus criou o homem?", options: ["4º dia", "5º dia", "6º dia", "7º dia"], answer: 2 },
-            { q: "Qual foi o castigo para a serpente no Éden?", options: ["Perder as asas", "Rastejar e comer pó", "Falar línguas", "Viver no mar"], answer: 1 },
-            { q: "Quanto tempo durou a chuva do Dilúvio?", options: ["7 dias", "12 dias", "40 dias e 40 noites", "100 dias"], answer: 2 },
-            { q: "Qual era o nome da esposa de Abraão?", options: ["Raquel", "Sara", "Rebeca", "Lia"], answer: 1 },
-            { q: "José foi vendido por seus irmãos por quantas moedas de prata?", options: ["10", "20", "30", "50"], answer: 1 },
-            { q: "Qual o nome do mar que se abriu para o povo de Israel passar?", options: ["Mar Morto", "Mar da Galileia", "Mar Vermelho", "Mar Mediterrâneo"], answer: 2 },
-            { q: "Qual mandamento diz para 'Honrar pai e mãe'?", options: ["3º", "5º", "1º", "10º"], answer: 1 },
-            { q: "Quem subiu ao Monte Sinai para receber as Tábuas da Lei?", options: ["Arão", "Josué", "Moisés", "Calebe"], answer: 2 },
-            { q: "Quantas vezes o povo rodeou Jericó no último dia?", options: ["1 vez", "3 vezes", "7 vezes", "12 vezes"], answer: 2 },
-            { q: "Qual cidade teve suas muralhas derrubadas pelo som de trombetas?", options: ["Jerusalém", "Jericó", "Belém", "Sodoma"], answer: 1 },
-            { q: "Quem foi o companheiro de Josué que também entrou na terra prometida?", options: ["Moisés", "Calebe", "Gideão", "Enoque"], answer: 1 },
-            { q: "Qual praga transformou a água do Egito em sangue?", options: ["A primeira", "A quinta", "A última", "A terceira"], answer: 0 },
-            { q: "O que Noé soltou da arca para ver se a terra estava seca?", options: ["Uma águia", "Um pombo", "Um falcão", "Um pardal"], answer: 1 },
-            { q: "Qual o nome do filho da promessa de Abraão e Sara?", options: ["Ismael", "Isaque", "Esaú", "Jacó"], answer: 1 },
+            // ORIGENS E PATRIARCAS
+            { q: "Quem existia antes de todas as coisas, segundo o estudo do Verbo?", options: ["Adão", "Moisés", "Jesus (O Verbo)", "Noé"], answer: 2 },
+            { q: "Qual foi o castigo de Adão após a queda?", options: ["Trabalho penoso na terra", "Viver no mar", "Não poder mais falar", "Ficar cego"], answer: 0 },
+            { q: "Qual o nome do filho de Noé de onde veio a linhagem de Abraão?", options: ["Cã", "Jafé", "Sem", "Ló"], answer: 2 },
+            { q: "Abraão saiu de qual cidade?", options: ["Ur dos Caldeus", "Harã", "Babilônia", "Nazaré"], answer: 0 },
+            { q: "Quem foi transformado em estátua de sal ao olhar para trás?", options: ["Esposa de Abraão", "Esposa de Ló", "Sara", "Rebeca"], answer: 1 },
+            { q: "Jacó teve quantos filhos, que originaram as tribos de Israel?", options: ["3", "7", "10", "12"], answer: 3 },
+            { q: "Qual filho de Jacó foi vendido como escravo por inveja?", options: ["Rúben", "Benjamim", "José", "Levi"], answer: 2 },
 
-            // REINO DIVIDIDO, PROFETAS E EXÍLIO
-            { q: "Quem foi o primeiro rei do Reino do Norte (Israel) após a divisão?", options: ["Roboão", "Jeroboão", "Acabe", "Jeú"], answer: 1 },
-            { q: "Qual profeta desafiou os profetas de Baal no Monte Carmelo?", options: ["Isaías", "Ezequiel", "Elias", "Eliseu"], answer: 2 },
-            { q: "Para qual cidade o povo de Judá foi levado cativo?", options: ["Nínive", "Babilônia", "Roma", "Cairo"], answer: 1 },
-            { q: "Quem era o rei da Babilônia quando Jerusalém foi destruída?", options: ["Ciro", "Dário", "Nabucodonosor", "Artaxerxes"], answer: 2 },
-            { q: "Qual profeta teve a visão do vale de ossos secos?", options: ["Jeremias", "Ezequiel", "Daniel", "Amós"], answer: 1 },
-            { q: "Quem liderou a reconstrução dos muros de Jerusalém?", options: ["Esdras", "Neemias", "Zorobabel", "Malaquias"], answer: 1 },
+            // ÊXODO E LEI
+            { q: "Como Deus apareceu a Moisés no deserto pela primeira vez?", options: ["Em um sonho", "Numa sarça ardente", "Através de um anjo", "Numa nuvem"], answer: 1 },
+            { q: "O que o povo comeu no deserto enviado por Deus?", options: ["Pão e Mel", "Maná e Codornizes", "Peixe", "Frutos da terra"], answer: 1 },
+            { q: "Qual mandamento diz: 'Não tomarás o nome do Senhor em vão'?", options: ["1º", "2º", "3º", "4º"], answer: 2 },
+            { q: "Onde ficava guardada a Arca da Aliança?", options: ["No pátio", "No Lugar Santo", "No Lugar Santíssimo", "Na entrada"], answer: 2 },
 
-            // JESUS E A IGREJA
-            { q: "Em qual cidade Jesus nasceu?", options: ["Nazaré", "Jerusalém", "Belém", "Jericó"], answer: 2 },
-            { q: "Quem foi o precursor de Jesus, que pregava no deserto?", options: ["Tiago", "João Batista", "André", "Filipe"], answer: 1 },
-            { q: "Qual foi o primeiro milagre registrado de Jesus?", options: ["Cura de um cego", "Multiplicação de pães", "Água em vinho", "Andar sobre as águas"], answer: 2 },
-            { q: "Quem traiu Jesus por 30 moedas de prata?", options: ["Pedro", "Tomé", "Judas Iscariotes", "Mateus"], answer: 2 },
-            { q: "Quantos dias após a ressurreição Jesus subiu aos céus?", options: ["3 dias", "7 dias", "40 dias", "50 dias"], answer: 2 },
-            { q: "Em qual evento o Espírito Santo desceu sobre os discípulos?", options: ["Páscoa", "Pentecostes", "Tabernáculos", "Expiação"], answer: 1 },
-            { q: "Qual apóstolo pregou o primeiro sermão no dia de Pentecostes?", options: ["João", "Tiago", "Pedro", "Paulo"], answer: 2 },
-            { q: "Qual era a profissão de Pedro antes de seguir Jesus?", options: ["Cobrador de impostos", "Carpinteiro", "Pescador", "Pastor"], answer: 2 },
-            { q: "Quem escreveu a maior parte das epístolas no Novo Testamento?", options: ["Pedro", "João", "Lucas", "Paulo"], answer: 3 }
+            // CONQUISTA E JUÍZES
+            { q: "Quem escondeu os espiões em Jericó?", options: ["Raabe", "Rute", "Débora", "Dalila"], answer: 0 },
+            { q: "Quantos juízes lideraram Israel no livro de Juízes?", options: ["10", "12", "15", "7"], answer: 1 },
+            { q: "Qual juiz derrotou os midianitas com apenas 300 homens?", options: ["Sansão", "Gideão", "Baraque", "Jefté"], answer: 1 },
+            { q: "Qual era o segredo da força de Sansão?", options: ["Seus olhos", "Seu voto nazireu (cabelo)", "Sua espada", "Sua dieta"], answer: 1 },
+
+            // REIS E PROFETAS
+            { q: "Qual rei era um pastor de ovelhas antes da coroa?", options: ["Saul", "Salomão", "Davi", "Josias"], answer: 2 },
+            { q: "Quem unificou as tribos e fez de Jerusalém a capital?", options: ["Moisés", "Davi", "Salomão", "Saul"], answer: 1 },
+            { q: "Qual rei pediu sabedoria a Deus em vez de riquezas?", options: ["Davi", "Ezequias", "Salomão", "Josias"], answer: 2 },
+            { q: "O reino se dividiu em dois: Israel (Norte) e qual o nome do Sul?", options: ["Edom", "Judá", "Moabe", "Samaria"], answer: 1 },
+            { q: "Qual profeta foi levado ao céu num redemoinho e carruagem de fogo?", options: ["Elias", "Eliseu", "Isaías", "Jeremias"], answer: 0 },
+            { q: "Qual profeta avisou que o povo seria levado para a Babilônia?", options: ["Amós", "Jeremias", "Oseias", "Malaquias"], answer: 1 },
+
+            // EXÍLIO E RETORNO
+            { q: "Quem interpretou o sonho da estátua de Nabucodonosor?", options: ["Ezequiel", "Daniel", "Neemias", "Esdras"], answer: 1 },
+            { q: "Qual rainha judia salvou seu povo do extermínio na Pérsia?", options: ["Ester", "Rute", "Abigail", "Miriã"], answer: 0 },
+            { q: "O que Neemias foi fazer em Jerusalém?", options: ["Construir o Templo", "Reconstruir os muros", "Ser o novo Sumo Sacerdote", "Escrever um livro"], answer: 1 },
+
+            // VIDA DE JESUS
+            { q: "Quem era a mãe de Jesus?", options: ["Isabel", "Maria", "Marta", "Madalena"], answer: 1 },
+            { q: "Onde Jesus foi batizado?", options: ["Mar Morto", "Rio Nilo", "Rio Jordão", "Mar da Galileia"], answer: 2 },
+            { q: "Quem era o discípulo amado que escreveu o Apocalipse?", options: ["Pedro", "Paulo", "João", "Tiago"], answer: 2 },
+            { q: "Quantas pessoas Jesus alimentou com 5 pães e 2 peixes?", options: ["1000", "3000", "5000", "100"], answer: 2 },
+            { q: "Qual discípulo negou Jesus três vezes?", options: ["Judas", "Pedro", "Tomé", "Mateus"], answer: 1 },
+            { q: "Quem pediu o corpo de Jesus para sepultar?", options: ["Nicodemos", "José de Arimateia", "Pedro", "Lázaro"], answer: 1 },
+
+            // ATOS E EPÍSTOLAS
+            { q: "Qual o nome da cidade onde os discípulos foram chamados de cristãos pela primeira vez?", options: ["Jerusalém", "Antioquia", "Roma", "Éfeso"], answer: 1 },
+            { q: "Qual era o nome de Paulo antes de sua conversão?", options: ["Saulo", "Simão", "Levi", "Estevão"], answer: 0 },
+            { q: "Quem foi o primeiro mártir da igreja cristã?", options: ["Pedro", "Estevão", "Tiago", "Paulo"], answer: 1 },
+            { q: "Para qual igreja Paulo escreveu sobre o 'Hino ao Amor'?", options: ["Romanos", "Gálatas", "Coríntios", "Efésios"], answer: 2 },
+            { q: "Qual livro fala sobre a armadura de Deus?", options: ["Filipenses", "Efésios", "Colossenses", "Hebreus"], answer: 1 },
+
+            // APOCALIPSE
+            { q: "Quantas igrejas recebem cartas no início do Apocalipse?", options: ["3", "7", "12", "10"], answer: 1 },
+            { q: "O que significa a palavra 'Apocalipse'?", options: ["Fim do mundo", "Revelação", "Destruição", "Segredo"], answer: 1 },
+            { q: "Na Nova Jerusalém, o que não existirá mais?", options: ["Sol", "Lágrimas e Morte", "Mar", "Todas as anteriores"], answer: 3 }
         ];
 
         let selectedQuestions = [];
         let currentQuestion = 0;
         let score = 0;
-
-        const questionEl = document.getElementById('question');
-        const optionsEl = document.getElementById('options');
-        const nextBtn = document.getElementById('next-btn');
-        const quizDiv = document.getElementById('quiz');
-        const resultScreen = document.getElementById('result-screen');
-        const finalScoreEl = document.getElementById('final-score');
+        const totalQuestionsPerRound = 10; // Limite de 10 perguntas
 
         function initQuiz() {
-            // Embaralha todas as perguntas e pega apenas 6
-            let shuffled = allQuestions.sort(() => 0.5 - Math.random());
-            selectedQuestions = shuffled.slice(0, 6);
+            // Sorteia 10 perguntas aleatórias do banco de dados
+            let shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+            selectedQuestions = shuffled.slice(0, totalQuestionsPerRound);
             loadQuestion();
         }
 
         function loadQuestion() {
             const qData = selectedQuestions[currentQuestion];
-            questionEl.innerText = qData.q;
+            document.getElementById('question').innerText = qData.q;
+            const optionsEl = document.getElementById('options');
             optionsEl.innerHTML = "";
-            nextBtn.style.display = "none";
+            document.getElementById('next-btn').style.display = "none";
 
             qData.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
@@ -194,8 +202,6 @@
         function selectOption(index, btn) {
             const correct = selectedQuestions[currentQuestion].answer;
             const allBtns = document.querySelectorAll('.option-btn');
-            
-            // Desabilita todos após a escolha
             allBtns.forEach(b => b.disabled = true);
 
             if (index === correct) {
@@ -205,23 +211,19 @@
                 btn.classList.add('wrong');
                 allBtns[correct].classList.add('correct');
             }
-            nextBtn.style.display = "block";
+            document.getElementById('next-btn').style.display = "block";
         }
 
-        nextBtn.onclick = () => {
+        document.getElementById('next-btn').onclick = () => {
             currentQuestion++;
             if (currentQuestion < selectedQuestions.length) {
                 loadQuestion();
             } else {
-                showResults();
+                document.getElementById('quiz').style.display = "none";
+                document.getElementById('result-screen').style.display = "block";
+                document.getElementById('final-score').innerText = score + " / " + totalQuestionsPerRound;
             }
         };
-
-        function showResults() {
-            quizDiv.style.display = "none";
-            resultScreen.style.display = "block";
-            finalScoreEl.innerText = score + " / " + selectedQuestions.length;
-        }
 
         initQuiz();
     </script>

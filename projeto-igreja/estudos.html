@@ -27,8 +27,42 @@
             margin: 0 auto;
         }
 
+        .secao-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-voltar {
+            text-decoration: none;
+            color: var(--turquesa);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-recursos {
+            text-decoration: none;
+            color: var(--azul-escuro);
+            background: var(--turquesa);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-recursos:hover {
+            transform: translateY(-2px);
+            background: #ffffff;
+        }
+
         header {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             border-left: 4px solid var(--turquesa);
             padding-left: 20px;
         }
@@ -40,28 +74,13 @@
             color: var(--turquesa);
         }
 
-        .btn-voltar {
-            display: inline-block;
-            margin-bottom: 20px;
-            text-decoration: none;
-            color: var(--turquesa);
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .btn-voltar:hover { transform: translateX(-5px); color: white; }
-
         .grid-estudos {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .estudo-link {
-            text-decoration: none;
-            color: inherit;
-        }
+        .estudo-link { text-decoration: none; color: inherit; }
 
         .card-estudo {
             background: rgba(255, 255, 255, 0.07);
@@ -89,10 +108,7 @@
             margin-bottom: 3px;
         }
 
-        .titulo-estudo {
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
+        .titulo-estudo { font-size: 1.15rem; font-weight: 500; }
 
         .seta { font-size: 1.2rem; color: var(--turquesa); opacity: 0.7; }
 
@@ -108,11 +124,14 @@
 <body>
 
     <div class="container">
-        <a href="../index.html" class="btn-voltar">← VOLTAR PARA O INÍCIO</a>
+        <div class="secao-topo">
+            <a href="../index.html" class="btn-voltar">← VOLTAR PARA O INÍCIO</a>
+            <a href="recursos.html" class="btn-recursos">📚 FERRAMENTAS DE APOIO</a>
+        </div>
         
         <header>
             <h1>Cronologia Bíblica</h1>
-            <p>A História da Redenção em ordem cronológica.</p>
+            <p>A História da Redenção do Gênesis ao Apocalipse.</p>
         </header>
 
         <div class="grid-estudos">
@@ -159,93 +178,107 @@
                 </div>
             </a>
 
-            <a href="estudo-israelemegito.html" class="estudo-link">
+            <a href="estudo-patriarcas.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 07</span><div class="titulo-estudo">Os Patriarcas e o Egito</div></div>
+                    <div><span class="numero">CAPÍTULO 07</span><div class="titulo-estudo">O Legado de uma Família</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-exodo.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 08</span><div class="titulo-estudo">Moisés e o Êxodo</div></div>
+                    <div><span class="numero">CAPÍTULO 08</span><div class="titulo-estudo">A Saída da Escravidão</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-lei.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 09</span><div class="titulo-estudo">A Lei e o Tabernáculo</div></div>
+                    <div><span class="numero">CAPÍTULO 09</span><div class="titulo-estudo">O Mapa para a Vida</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-deserto.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 10</span><div class="titulo-estudo">A Peregrinação no Deserto</div></div>
+                    <div><span class="numero">CAPÍTULO 10</span><div class="titulo-estudo">O Tempo de Espera</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-josue.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 11</span><div class="titulo-estudo">Josué e a Conquista</div></div>
+                    <div><span class="numero">CAPÍTULO 11</span><div class="titulo-estudo">Coragem para Conquistar</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-juizes.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 12</span><div class="titulo-estudo">O Período dos Juízes</div></div>
+                    <div><span class="numero">CAPÍTULO 12</span><div class="titulo-estudo">O Ciclo da Teimosia</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-reinos.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 13</span><div class="titulo-estudo">Saul, Davi e Salomão</div></div>
+                    <div><span class="numero">CAPÍTULO 13</span><div class="titulo-estudo">Coroas e Corações</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-divisao.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 14</span><div class="titulo-estudo">O Reino Dividido</div></div>
+                    <div><span class="numero">CAPÍTULO 14</span><div class="titulo-estudo">Um Povo Dividido</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-profetas.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 15</span><div class="titulo-estudo">A Voz dos Profetas</div></div>
+                    <div><span class="numero">CAPÍTULO 15</span><div class="titulo-estudo">A Voz que Não se Cala</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-exilio.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 16</span><div class="titulo-estudo">O Exílio na Babilônia</div></div>
+                    <div><span class="numero">CAPÍTULO 16</span><div class="titulo-estudo">Longe de Casa</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-retorno.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 17</span><div class="titulo-estudo">O Retorno e a Reconstrução</div></div>
+                    <div><span class="numero">CAPÍTULO 17</span><div class="titulo-estudo">Mãos à Obra</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-nascimento.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 18</span><div class="titulo-estudo">O Nascimento do Messias</div></div>
+                    <div><span class="numero">CAPÍTULO 18</span><div class="titulo-estudo">A Espera Acabou</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
             <a href="estudo-igreja.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 19</span><div class="titulo-estudo">O Nascimento da Igreja</div></div>
+                    <div><span class="numero">CAPÍTULO 19</span><div class="titulo-estudo">A Missão Continua</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
+
+            <a href="estudo-cartas.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 20</span><div class="titulo-estudo">Conselhos para a Jornada</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
+
+            <a href="estudo-apocalipse.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 21</span><div class="titulo-estudo">O Novo Começo</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>

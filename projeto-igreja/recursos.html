@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos de Apoio - Elim Church</title>
+    <link rel="icon" type="image/png" href="img/elim01.png">
+    <style>
+        :root {
+            --azul-escuro: #1a2a6c;
+            --turquesa: #00e5ff;
+            --branco: #ffffff;
+            --cinza-bloqueado: rgba(255, 255, 255, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, var(--azul-escuro) 0%, #0a1128 100%);
+            min-height: 100vh;
+            color: var(--branco);
+            padding: 40px 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .btn-voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: var(--turquesa);
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { color: white; }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--turquesa);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .secao-recursos {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* CARD ATIVO (YOUVERSION) */
+        .recurso-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-ativo {
+            padding: 25px;
+            background: rgba(0, 229, 255, 0.08);
+            border-radius: 12px;
+            border: 2px solid var(--turquesa);
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.1);
+        }
+
+        .item-ativo:hover {
+            background: rgba(0, 229, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* CARDS BLOQUEADOS (EM BREVE) */
+        .item-bloqueado {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .item-bloqueado h3 { color: var(--cinza-bloqueado); margin-bottom: 8px; }
+        .item-bloqueado p { color: var(--cinza-bloqueado); font-size: 0.95rem; }
+
+        .tag-disponivel {
+            display: inline-block;
+            background: var(--turquesa);
+            color: var(--azul-escuro);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+        .tag-breve {
+            display: inline-block;
+            background: transparent;
+            color: var(--cinza-bloqueado);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 15px;
+            text-transform: uppercase;
+            border: 1px solid var(--cinza-bloqueado);
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="estudos.html" class="btn-voltar">← VOLTAR PARA ESTUDOS</a>
+        
+        <header>
+            <h1>Recursos de Estudo</h1>
+            <p>Selecione uma ferramenta para auxiliar seu aprendizado.</p>
+        </header>
+
+        <div class="secao-recursos">
+            
+            <a href="https://www.bible.com/pt" target="_blank" rel="noopener noreferrer" class="recurso-link">
+                <div class="item-ativo">
+                    <h3>Bíblia YouVersion</h3>
+                    <p>Acesse centenas de versões bíblicas e planos de leitura. O melhor aplicativo para seu estudo diário.</p>
+                    <span class="tag-disponivel">Acessar Agora</span>
+                </div>
+            </a>
+
+            <div class="item-bloqueado">
+                <h3>BibleProject (Brasil)</h3>
+                <p>Vídeos animados que explicam a estrutura de cada livro da Bíblia de forma visual.</p>
+                <span class="tag-breve">Em breve</span>
+            </div>
+
+            <div class="item-bloqueado">
+                <h3>Dicionário Bíblico Online</h3>
+                <p>Pesquise o significado de termos, nomes de cidades e biografias de personagens.</p>
+                <span class="tag-breve">Em breve</span>
+            </div>
+
+            <div class="item-bloqueado">
+                <h3>Blue Letter Bible</h3>
+                <p>Estudo avançado com os textos originais em Grego e Hebraico.</p>
+                <span class="tag-breve">Em breve</span>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>Elim Church CasaBlanca</p>
+        </footer>
+    </div>
+
+</body>
+</html>
