@@ -6,36 +6,111 @@
     <title>Estudo: O Verbo - Elim Church</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
         body { background-color: #f4f7f6; line-height: 1.8; color: #333; }
-        header { background: #1a2a6c; color: white; padding: 40px; text-align: center; }
-        .content { max-width: 800px; margin: 30px auto; background: white; padding: 40px; border-radius: 10px; shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #1a2a6c; margin-bottom: 20px; border-left: 5px solid #b21f1f; padding-left: 15px; }
-        .verse-box { background: #fff3f3; border-radius: 8px; padding: 20px; font-style: italic; margin-bottom: 30px; border: 1px solid #eccaca; }
-        p { margin-bottom: 20px; font-size: 1.1rem; }
-        .btn-voltar { display: inline-block; margin-top: 30px; text-decoration: none; color: #1a2a6c; font-weight: bold; }
+        
+        header { 
+            background: #1a2a6c; 
+            color: white; 
+            padding: 50px 20px; 
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Garante que tudo no topo fique centralizado */
+        }
+
+        header h1 { 
+            font-size: 2.2rem; 
+            margin-bottom: 10px;
+        }
+
+        header p { 
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px; /* Evita que o texto espalhe demais e pareça torto */
+        }
+
+        .content { 
+            max-width: 800px; 
+            margin: -30px auto 60px; /* Sobe um pouco para sobrepor o header levemente */
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+        }
+
+        h2 { 
+            color: #1a2a6c; 
+            margin: 30px 0 15px; 
+            border-left: 5px solid #ffab00; 
+            padding-left: 15px; 
+            line-height: 1.2;
+        }
+
+        .verse-box { 
+            background: #fff9e6; 
+            border-radius: 8px; 
+            padding: 25px; 
+            font-style: italic; 
+            margin-bottom: 30px; 
+            border: 1px solid #ffe082; 
+            text-align: center;
+            font-size: 1.15rem;
+        }
+
+        p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
+
+        .highlight-jovem {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #1a2a6c;
+            margin-top: 30px;
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 40px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            border: 2px solid #1a2a6c;
+            padding: 10px 25px;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background: #1a2a6c;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 1: O Verbo Eterno</p>
+        <p>Capítulo 01: O Verbo Eterno</p>
     </header>
 
     <div class="content">
         <div class="verse-box">
-            "No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus." <br>
-            <strong>— João 1:1</strong>
+            "No começo aquele que é a Palavra já existia. Ele estava com Deus e era Deus." <br>
+            <strong>— João 1:1 (NTLH)</strong>
         </div>
 
-        <h2>A Pré-existência de Cristo</h2>
-        <p>A nossa cronologia começa não no tempo, mas na eternidade. João 1:1 nos revela que Jesus (o Verbo) já existia antes da criação do mundo.</p>
+        <h2>Jesus: O Início de Toda a História</h2>
+        <p>Nossa história não começa no tempo, mas na eternidade. Antes de existir o mundo, o tempo ou as estrelas, Jesus — chamado aqui de "a Palavra" — já existia. Ele não teve um começo; Ele é o próprio Criador de tudo.</p>
         
-        <h2>O Verbo era Deus</h2>
-        <p>Este estudo é fundamental para entendermos a divindade de Jesus. Ele não foi criado; Ele é o Criador. Tudo o que existe passou por Ele.</p>
+        <h2>Ele Não é Apenas um Homem</h2>
+        <p>É fundamental entender que Jesus não "começou a existir" quando nasceu em Belém. Ele sempre foi Deus. Através dEle, tudo o que vemos foi criado. Ele é a base sólida de toda a nossa fé.</p>
 
-        <p><strong>Reflexão:</strong> Se Jesus é o Verbo e Ele é Deus, a nossa vida deve estar alinhada com a Sua Palavra, que é eterna e imutável.</p>
+        <div class="highlight-jovem">
+            <strong>Conexão Jovem:</strong> Pense em Jesus como o "Código-Fonte" do universo. Ele escreveu as regras da vida muito antes de qualquer tecnologia existir. Seguir a Jesus é alinhar sua vida com quem projetou você!
+        </div>
 
-        <a href="estudos.html" class="btn-voltar">← Voltar para Estudos</a>
+        <center>
+            <a href="estudos.html" class="btn-voltar">← Voltar para Estudos</a>
+        </center>
     </div>
 </body>
 </html>
