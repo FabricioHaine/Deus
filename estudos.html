@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca de Estudos - Elim Church</title>
+    
+    <script>
+        if (!localStorage.getItem('elim_aluno_id')) {
+            window.location.href = "cadastro.html";
+        }
+    </script>
+
     <link rel="icon" type="image/png" href="img/elim01.png">
 
     <style>
@@ -125,7 +132,7 @@
 
     <div class="container">
         <div class="secao-topo">
-            <a href="../index.html" class="btn-voltar">← VOLTAR PARA O INÍCIO</a>
+            <a href="index.html" class="btn-voltar">← VOLTAR PARA O INÍCIO</a>
             <a href="recursos.html" class="btn-recursos">📚 FERRAMENTAS DE APOIO</a>
         </div>
         
@@ -136,149 +143,170 @@
 
         <div class="grid-estudos">
             
-            <a href="estudo-verbo.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-verbo.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 01</span><div class="titulo-estudo">O Verbo Eterno</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-criacao.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-criacao.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 02</span><div class="titulo-estudo">O Design de Deus</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-queda.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-queda.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 03</span><div class="titulo-estudo">A Quebra da Confiança</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-diluvio.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-diluvio.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 04</span><div class="titulo-estudo">Um Novo Começo</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-torrebabel.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-torrebabel.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 05</span><div class="titulo-estudo">A Ilusão do Topo</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-abraao.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-abraao.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 06</span><div class="titulo-estudo">Abraão: O Pai da Fé</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-patriarcas.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-patriarcas.html" class="estudo-link">
                 <div class="card-estudo">
                     <div><span class="numero">CAPÍTULO 07</span><div class="titulo-estudo">O Legado de uma Família</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-exodo.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-jose.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 08</span><div class="titulo-estudo">A Saída da Escravidão</div></div>
+                    <div><span class="numero">CAPÍTULO 08</span><div class="titulo-estudo">José no Egito</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-lei.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-exodo.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 09</span><div class="titulo-estudo">O Mapa para a Vida</div></div>
+                    <div><span class="numero">CAPÍTULO 09</span><div class="titulo-estudo">A Saída da Escravidão</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-deserto.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-lei.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 10</span><div class="titulo-estudo">O Tempo de Espera</div></div>
+                    <div><span class="numero">CAPÍTULO 10</span><div class="titulo-estudo">O Mapa para a Vida</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-josue.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-deserto.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 11</span><div class="titulo-estudo">Coragem para Conquistar</div></div>
+                    <div><span class="numero">CAPÍTULO 11</span><div class="titulo-estudo">O Tempo de Espera</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-juizes.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-josue.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 12</span><div class="titulo-estudo">O Ciclo da Teimosia</div></div>
+                    <div><span class="numero">CAPÍTULO 12</span><div class="titulo-estudo">Coragem para Conquistar</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-reinos.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-juizes.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 13</span><div class="titulo-estudo">Coroas e Corações</div></div>
+                    <div><span class="numero">CAPÍTULO 13</span><div class="titulo-estudo">O Ciclo da Teimosia</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-divisao.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-reinos.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 14</span><div class="titulo-estudo">Um Povo Dividido</div></div>
+                    <div><span class="numero">CAPÍTULO 14</span><div class="titulo-estudo">Coroas e Corações</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-profetas.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-divisao.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 15</span><div class="titulo-estudo">A Voz que Não se Cala</div></div>
+                    <div><span class="numero">CAPÍTULO 15</span><div class="titulo-estudo">Um Povo Dividido</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-exilio.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-profetas.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 16</span><div class="titulo-estudo">Longe de Casa</div></div>
+                    <div><span class="numero">CAPÍTULO 16</span><div class="titulo-estudo">A Voz que Não se Cala</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-retorno.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-exilio.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 17</span><div class="titulo-estudo">Mãos à Obra</div></div>
+                    <div><span class="numero">CAPÍTULO 17</span><div class="titulo-estudo">Longe de Casa</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-nascimento.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-retorno.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 18</span><div class="titulo-estudo">A Espera Acabou</div></div>
+                    <div><span class="numero">CAPÍTULO 18</span><div class="titulo-estudo">Mãos à Obra</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-igreja.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-nascimento.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 19</span><div class="titulo-estudo">A Missão Continua</div></div>
+                    <div><span class="numero">CAPÍTULO 19</span><div class="titulo-estudo">A Espera Acabou</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-cartas.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-ministerio.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 20</span><div class="titulo-estudo">Conselhos para a Jornada</div></div>
+                    <div><span class="numero">CAPÍTULO 20</span><div class="titulo-estudo">O Ministério de Jesus</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>
 
-            <a href="estudo-apocalipse.html" class="estudo-link">
+            <a href="projeto-igreja/estudo-paixao.html" class="estudo-link">
                 <div class="card-estudo">
-                    <div><span class="numero">CAPÍTULO 21</span><div class="titulo-estudo">O Novo Começo</div></div>
+                    <div><span class="numero">CAPÍTULO 21</span><div class="titulo-estudo">Paixão, Morte e Ressurreição</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
+
+            <a href="projeto-igreja/estudo-igreja.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 22</span><div class="titulo-estudo">A Missão Continua</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
+
+            <a href="projeto-igreja/estudo-cartas.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 23</span><div class="titulo-estudo">Conselhos para a Jornada</div></div>
+                    <div class="seta">➔</div>
+                </div>
+            </a>
+
+            <a href="projeto-igreja/estudo-apocalipse.html" class="estudo-link">
+                <div class="card-estudo">
+                    <div><span class="numero">CAPÍTULO 24</span><div class="titulo-estudo">O Novo Começo</div></div>
                     <div class="seta">➔</div>
                 </div>
             </a>

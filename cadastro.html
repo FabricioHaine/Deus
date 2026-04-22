@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aluno - Elim Church</title>
+    <link rel="icon" type="image/png" href="img/elim01.png">
+    <style>
+        :root {
+            --azul-escuro: #1a2a6c;
+            --turquesa: #00e5ff;
+            --branco: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, var(--azul-escuro) 0%, #0a1128 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--branco);
+            padding: 20px;
+        }
+
+        .cadastro-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .cadastro-card h2 { color: var(--turquesa); margin-bottom: 10px; }
+        .cadastro-card p { opacity: 0.7; margin-bottom: 25px; font-size: 0.9rem; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.75rem; margin-bottom: 5px; opacity: 0.8; letter-spacing: 1px; }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--turquesa); background: rgba(255, 255, 255, 0.15); }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--turquesa);
+            color: var(--azul-escuro);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4); }
+
+        .footer-info { margin-top: 20px; font-size: 0.7rem; opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+    <div class="cadastro-card">
+        <h2>Área do Aluno</h2>
+        <p>Preencha seus dados para acessar o portal.</p>
+
+        <div class="form-group">
+            <label>NOME COMPLETO</label>
+            <input type="text" id="alunoNome" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+            <label>E-MAIL</label>
+            <input type="email" id="alunoEmail" placeholder="exemplo@email.com">
+        </div>
+
+        <div class="form-group">
+            <label>WHATSAPP / TELEFONE</label>
+            <input type="tel" id="alunoTelefone" maxlength="15" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)">
+        </div>
+
+        <button onclick="realizarCadastro()">Acessar Material</button>
+        
+        <div class="footer-info">Elim Church CasaBlanca - Sistema de Gestão</div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Função para máscara de telefone (XX) XXXXX-XXXX
+        function mascaraTelefone(i) {
+            let v = i.value.replace(/\D/g, ""); 
+            v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); 
+            v = v.replace(/(\d{5})(\d)/, "$1-$2");    
+            i.value = v;
+        }
+
+        function realizarCadastro() {
+            const nome = document.getElementById('alunoNome').value.trim();
+            const email = document.getElementById('alunoEmail').value.trim();
+            const telefone = document.getElementById('alunoTelefone').value.trim();
+
+            if (nome === "") {
+                alert("Por favor, preencha o seu nome.");
+                return;
+            }
+
+            // Verificação de acesso especial (Sem comentários óbvios)
+            const KEY = "YWNwYWk1NTc="; 
+            if (btoa(nome.toLowerCase()) === KEY) {
+                localStorage.setItem('elim_tipo_usuario', 'admin');
+                localStorage.setItem('elim_aluno_nome', 'Administrador');
+                localStorage.setItem('elim_aluno_id', 'admin_master');
+                
+                if (confirm("Acesso confirmado. Ir para o Painel?")) {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "index.html";
+                }
+                return;
+            }
+
+            if (email === "" || telefone === "") {
+                alert("Para o cadastro completo, e-mail e telefone são obrigatórios.");
+                return;
+            }
+
+            const alunoId = "id_" + telefone.replace(/\D/g, "");
+            const dataHoraAtual = new Date().toLocaleDateString('pt-br') + " às " + new Date().toLocaleTimeString('pt-br', {hour: '2-digit', minute:'2-digit'});
+
+            database.ref('alunos/' + alunoId).update({
+                nome: nome,
+                email: email,
+                contato: telefone,
+                dataCadastro: new Date().toLocaleDateString('pt-br'),
+                ultimoAcesso: dataHoraAtual
+            }).then(() => {
+                localStorage.setItem('elim_aluno_id', alunoId);
+                localStorage.setItem('elim_aluno_nome', nome);
+                localStorage.setItem('elim_tipo_usuario', 'aluno');
+                
+                window.location.href = "index.html"; 
+            }).catch((error) => {
+                console.error("Erro:", error);
+                alert("Falha na conexão.");
+            });
+        }
+    </script>
+</body>
+</html>

@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Bíblico Dinâmico - Elim Church</title>
+
+    <script>
+        if (!localStorage.getItem('elim_aluno_id')) {
+            window.location.href = "cadastro.html";
+        }
+    </script>
+
     <style>
         :root {
             --primary: #1a2a6c;
@@ -174,10 +181,9 @@
         let selectedQuestions = [];
         let currentQuestion = 0;
         let score = 0;
-        const totalQuestionsPerRound = 10; // Limite de 10 perguntas
+        const totalQuestionsPerRound = 10; 
 
         function initQuiz() {
-            // Sorteia 10 perguntas aleatórias do banco de dados
             let shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, totalQuestionsPerRound);
             loadQuestion();

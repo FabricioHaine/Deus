@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Elim Church</title>
+    
+    <script>
+        if (localStorage.getItem('elim_tipo_usuario') !== 'admin') {
+            window.location.href = "index.html";
+        }
+    </script>
+
+    <style>
+        :root {
+            --azul-escuro: #1a2a6c;
+            --turquesa: #00e5ff;
+            --branco: #ffffff;
+            --danger: #ff4b2b;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            color: #333;
+        }
+
+        .admin-container {
+            max-width: 1100px; /* Aumentado para acomodar a nova coluna de E-mail */
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--azul-escuro);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--azul-escuro); font-size: 1.5rem; }
+
+        .stats {
+            background: var(--azul-escuro);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid #eee;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.85rem;
+            word-break: break-word; /* Evita que e-mails longos quebrem o layout */
+        }
+
+        tr:hover { background-color: #f9f9f9; }
+
+        .btn-voltar {
+            text-decoration: none;
+            color: var(--azul-escuro);
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-excluir {
+            background: none;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.3s;
+        }
+
+        .btn-excluir:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .sem-dados {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .hora-acesso {
+            color: #1a2a6c;
+            font-weight: bold;
+            background: #e0f7fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .email-link {
+            color: #555;
+            text-decoration: none;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <header>
+            <h1>Gestão de Alunos - Elim Church</h1>
+            <div class="stats" id="total-alunos">Total: 0</div>
+        </header>
+
+        <table id="tabela-alunos">
+            <thead>
+                <tr>
+                    <th>Nome do Aluno</th>
+                    <th>E-mail</th>
+                    <th>WhatsApp</th>
+                    <th>Data Cadastro</th>
+                    <th>Último Acesso</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="lista-corpo">
+                </tbody>
+        </table>
+
+        <div id="mensagem-vazia" class="sem-dados" style="display: none;">
+            Nenhum aluno cadastrado no banco de dados.
+        </div>
+
+        <a href="index.html" class="btn-voltar">← Voltar ao Site Principal</a>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function carregarAlunos() {
+            const corpoTabela = document.getElementById('lista-corpo');
+            const totalTexto = document.getElementById('total-alunos');
+            const msgVazia = document.getElementById('mensagem-vazia');
+
+            database.ref('alunos').on('value', (snapshot) => {
+                const dados = snapshot.val();
+                corpoTabela.innerHTML = "";
+                
+                if (!dados) {
+                    msgVazia.style.display = "block";
+                    totalTexto.innerText = "Total: 0";
+                    return;
+                }
+
+                msgVazia.style.display = "none";
+                let contador = 0;
+
+                Object.keys(dados).forEach(id => {
+                    contador++;
+                    const aluno = dados[id];
+                    const linha = document.createElement('tr');
+                    
+                    // Renderiza as novas colunas: Email e Telefone separados
+                    linha.innerHTML = `
+                        <td><strong>${aluno.nome}</strong></td>
+                        <td><span class="email-link">${aluno.email || '---'}</span></td>
+                        <td>${aluno.contato || '---'}</td>
+                        <td>${aluno.dataCadastro || '--'}</td>
+                        <td><span class="hora-acesso">${aluno.ultimoAcesso || '--'}</span></td>
+                        <td>
+                            <button class="btn-excluir" onclick="excluirAluno('${id}')">Excluir</button>
+                        </td>
+                    `;
+                    
+                    corpoTabela.appendChild(linha);
+                });
+
+                totalTexto.innerText = `Total: ${contador}`;
+            });
+        }
+
+        function excluirAluno(id) {
+            if (confirm("Deseja realmente excluir este registro? Esta ação não pode ser desfeita.")) {
+                database.ref('alunos/' + id).remove();
+            }
+        }
+
+        carregarAlunos();
+    </script>
+</body>
+</html>
