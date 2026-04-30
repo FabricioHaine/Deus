@@ -16,23 +16,15 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Garante que tudo no topo fique centralizado */
+            align-items: center;
         }
 
-        header h1 { 
-            font-size: 2.2rem; 
-            margin-bottom: 10px;
-        }
-
-        header p { 
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px; /* Evita que o texto espalhe demais e pareça torto */
-        }
+        header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; }
 
         .content { 
             max-width: 800px; 
-            margin: -30px auto 60px; /* Sobe um pouco para sobrepor o header levemente */
+            margin: -30px auto 60px; 
             background: white; 
             padding: 40px; 
             border-radius: 12px; 
@@ -66,24 +58,43 @@
             border-radius: 10px;
             border-left: 5px solid #1a2a6c;
             margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* --- NOVO ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #388e3c;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
         }
 
         .btn-voltar { 
             display: inline-block; 
-            margin-top: 40px; 
+            margin-top: 20px; 
             text-decoration: none; 
             color: #1a2a6c; 
             font-weight: bold; 
-            border: 2px solid #1a2a6c;
-            padding: 10px 25px;
-            border-radius: 25px;
+            font-size: 0.9rem;
+            opacity: 0.7;
             transition: 0.3s;
         }
 
-        .btn-voltar:hover {
-            background: #1a2a6c;
-            color: white;
-        }
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -109,8 +120,55 @@
         </div>
 
         <center>
-            <a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a>
+            <button onclick="marcarComoConcluido(1)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
         </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            
+            if (!idAluno) {
+                alert("Erro: Aluno não identificado.");
+                return;
+            }
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+
+                // Só atualiza se o aluno estiver terminando o capítulo que ele realmente está
+                // Se ele re-ler o Cap 1 mas já estiver no 5, não faz nada.
+                if (capituloAtual >= progressoNoBanco) {
+                    const novoProgresso = capituloAtual + 1;
+                    refProgresso.set(novoProgresso).then(() => {
+                        alert("Parabéns! Capítulo concluído. Próximo liberado!");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    // Se ele já tinha concluído antes, apenas volta para a lista
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

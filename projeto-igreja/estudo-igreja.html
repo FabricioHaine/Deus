@@ -14,15 +14,57 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #ff4081; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #fff1f6; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #f8bbd0; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #fffafa; padding: 20px; border-radius: 10px; border-left: 5px solid #ff4081; margin-top: 30px; }
-        .btn-voltar { display: inline-block; margin-top: 40px; text-decoration: none; color: #1a2a6c; font-weight: bold; border: 2px solid #1a2a6c; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
-        .btn-voltar:hover { background: #1a2a6c; color: white; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #fffafa; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #ff4081; 
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #ff4081;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #e91e63;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 19: A Missão Continua</p>
+        <p>Capítulo 22: A Missão Continua</p>
     </header>
     <div class="content">
         <div class="verse-box">
@@ -33,10 +75,52 @@
         <p>Jesus subiu ao céu, mas não nos deixou sozinhos. Ele enviou o Espírito Santo, que "incendiou" o coração dos primeiros discípulos. Eles deixaram de ser pessoas com medo para se tornarem pregadores corajosos, espalhando a mensagem de amor por onde passavam. Assim nasceu a Igreja: não um prédio, mas um grupo de pessoas apaixonadas por Jesus.</p>
         <h2>Nós fazemos parte disso</h2>
         <p>A história da Bíblia não termina com "fim", ela continua através de nós. Hoje, somos as mãos e os pés de Jesus na terra. Cada vez que ajudamos alguém, falamos do amor de Deus ou vivemos de um jeito diferente, estamos escrevendo mais um capítulo desse movimento que começou há dois mil anos.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> Ser igreja é ser parte de uma família global que luta pelo que é certo e vive com esperança. Você não foi chamado para ser apenas um espectador, mas para ser um protagonista nessa história. O mesmo "fogo" que estava com os primeiros cristãos está disponível para você hoje!
         </div>
-        <center><a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a></center>
+
+        <center>
+            <button onclick="marcarComoConcluido(22)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Aleluia! Capítulo 22 concluído. O Espírito Santo está com você!");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

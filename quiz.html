@@ -95,12 +95,25 @@
             color: var(--primary); text-decoration: none; border: 2px solid var(--primary);
             border-radius: 5px; font-weight: bold; margin: 10px 5px; transition: 0.3s;
         }
+
+        /* Mensagem de conquista */
+        #msg-conquista {
+            color: #d4af37;
+            font-weight: bold;
+            display: none;
+            margin-bottom: 15px;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
     </style>
 </head>
 <body>
 
     <div class="quiz-container">
-        <a href="../index.html" class="btn-sair-topo">SAIR ✕</a>
+        <a href="index.html" class="btn-sair-topo">SAIR ✕</a>
 
         <header>
             <h1>Desafio Elim</h1>
@@ -114,16 +127,32 @@
         </div>
 
         <div class="result-screen" id="result-screen">
+            <div id="msg-conquista">🏆 NOVA CONQUISTA: MESTRE DO QUIZ! 🏆</div>
             <h2>Fim do Desafio!</h2>
             <div class="score" id="final-score">0 / 10</div>
             <button onclick="location.reload()" class="btn-restart">Tentar Novamente</button>
-            <a href="../index.html" class="btn-home-final">Início</a>
+            <a href="index.html" class="btn-home-final">Início</a>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <script>
+        // CONFIGURAÇÃO FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         const allQuestions = [
-            // ORIGENS E PATRIARCAS
             { q: "Quem existia antes de todas as coisas, segundo o estudo do Verbo?", options: ["Adão", "Moisés", "Jesus (O Verbo)", "Noé"], answer: 2 },
             { q: "Qual foi o castigo de Adão após a queda?", options: ["Trabalho penoso na terra", "Viver no mar", "Não poder mais falar", "Ficar cego"], answer: 0 },
             { q: "Qual o nome do filho de Noé de onde veio a linhagem de Abraão?", options: ["Cã", "Jafé", "Sem", "Ló"], answer: 2 },
@@ -131,48 +160,34 @@
             { q: "Quem foi transformado em estátua de sal ao olhar para trás?", options: ["Esposa de Abraão", "Esposa de Ló", "Sara", "Rebeca"], answer: 1 },
             { q: "Jacó teve quantos filhos, que originaram as tribos de Israel?", options: ["3", "7", "10", "12"], answer: 3 },
             { q: "Qual filho de Jacó foi vendido como escravo por inveja?", options: ["Rúben", "Benjamim", "José", "Levi"], answer: 2 },
-
-            // ÊXODO E LEI
             { q: "Como Deus apareceu a Moisés no deserto pela primeira vez?", options: ["Em um sonho", "Numa sarça ardente", "Através de um anjo", "Numa nuvem"], answer: 1 },
             { q: "O que o povo comeu no deserto enviado por Deus?", options: ["Pão e Mel", "Maná e Codornizes", "Peixe", "Frutos da terra"], answer: 1 },
             { q: "Qual mandamento diz: 'Não tomarás o nome do Senhor em vão'?", options: ["1º", "2º", "3º", "4º"], answer: 2 },
             { q: "Onde ficava guardada a Arca da Aliança?", options: ["No pátio", "No Lugar Santo", "No Lugar Santíssimo", "Na entrada"], answer: 2 },
-
-            // CONQUISTA E JUÍZES
             { q: "Quem escondeu os espiões em Jericó?", options: ["Raabe", "Rute", "Débora", "Dalila"], answer: 0 },
             { q: "Quantos juízes lideraram Israel no livro de Juízes?", options: ["10", "12", "15", "7"], answer: 1 },
             { q: "Qual juiz derrotou os midianitas com apenas 300 homens?", options: ["Sansão", "Gideão", "Baraque", "Jefté"], answer: 1 },
             { q: "Qual era o segredo da força de Sansão?", options: ["Seus olhos", "Seu voto nazireu (cabelo)", "Sua espada", "Sua dieta"], answer: 1 },
-
-            // REIS E PROFETAS
             { q: "Qual rei era um pastor de ovelhas antes da coroa?", options: ["Saul", "Salomão", "Davi", "Josias"], answer: 2 },
             { q: "Quem unificou as tribos e fez de Jerusalém a capital?", options: ["Moisés", "Davi", "Salomão", "Saul"], answer: 1 },
             { q: "Qual rei pediu sabedoria a Deus em vez de riquezas?", options: ["Davi", "Ezequias", "Salomão", "Josias"], answer: 2 },
             { q: "O reino se dividiu em dois: Israel (Norte) e qual o nome do Sul?", options: ["Edom", "Judá", "Moabe", "Samaria"], answer: 1 },
             { q: "Qual profeta foi levado ao céu num redemoinho e carruagem de fogo?", options: ["Elias", "Eliseu", "Isaías", "Jeremias"], answer: 0 },
             { q: "Qual profeta avisou que o povo seria levado para a Babilônia?", options: ["Amós", "Jeremias", "Oseias", "Malaquias"], answer: 1 },
-
-            // EXÍLIO E RETORNO
             { q: "Quem interpretou o sonho da estátua de Nabucodonosor?", options: ["Ezequiel", "Daniel", "Neemias", "Esdras"], answer: 1 },
             { q: "Qual rainha judia salvou seu povo do extermínio na Pérsia?", options: ["Ester", "Rute", "Abigail", "Miriã"], answer: 0 },
             { q: "O que Neemias foi fazer em Jerusalém?", options: ["Construir o Templo", "Reconstruir os muros", "Ser o novo Sumo Sacerdote", "Escrever um livro"], answer: 1 },
-
-            // VIDA DE JESUS
             { q: "Quem era a mãe de Jesus?", options: ["Isabel", "Maria", "Marta", "Madalena"], answer: 1 },
             { q: "Onde Jesus foi batizado?", options: ["Mar Morto", "Rio Nilo", "Rio Jordão", "Mar da Galileia"], answer: 2 },
             { q: "Quem era o discípulo amado que escreveu o Apocalipse?", options: ["Pedro", "Paulo", "João", "Tiago"], answer: 2 },
             { q: "Quantas pessoas Jesus alimentou com 5 pães e 2 peixes?", options: ["1000", "3000", "5000", "100"], answer: 2 },
             { q: "Qual discípulo negou Jesus três vezes?", options: ["Judas", "Pedro", "Tomé", "Mateus"], answer: 1 },
             { q: "Quem pediu o corpo de Jesus para sepultar?", options: ["Nicodemos", "José de Arimateia", "Pedro", "Lázaro"], answer: 1 },
-
-            // ATOS E EPÍSTOLAS
             { q: "Qual o nome da cidade onde os discípulos foram chamados de cristãos pela primeira vez?", options: ["Jerusalém", "Antioquia", "Roma", "Éfeso"], answer: 1 },
             { q: "Qual era o nome de Paulo antes de sua conversão?", options: ["Saulo", "Simão", "Levi", "Estevão"], answer: 0 },
             { q: "Quem foi o primeiro mártir da igreja cristã?", options: ["Pedro", "Estevão", "Tiago", "Paulo"], answer: 1 },
             { q: "Para qual igreja Paulo escreveu sobre o 'Hino ao Amor'?", options: ["Romanos", "Gálatas", "Coríntios", "Efésios"], answer: 2 },
             { q: "Qual livro fala sobre a armadura de Deus?", options: ["Filipenses", "Efésios", "Colossenses", "Hebreus"], answer: 1 },
-
-            // APOCALIPSE
             { q: "Quantas igrejas recebem cartas no início do Apocalipse?", options: ["3", "7", "12", "10"], answer: 1 },
             { q: "O que significa a palavra 'Apocalipse'?", options: ["Fim do mundo", "Revelação", "Destruição", "Segredo"], answer: 1 },
             { q: "Na Nova Jerusalém, o que não existirá mais?", options: ["Sol", "Lágrimas e Morte", "Mar", "Todas as anteriores"], answer: 3 }
@@ -220,14 +235,31 @@
             document.getElementById('next-btn').style.display = "block";
         }
 
+        function finalizarQuiz() {
+            document.getElementById('quiz').style.display = "none";
+            document.getElementById('result-screen').style.display = "block";
+            document.getElementById('final-score').innerText = score + " / " + totalQuestionsPerRound;
+
+            const idUsuario = localStorage.getItem('elim_aluno_id');
+
+            // SE ACERTOU TODAS, GANHA MEDALHA NO FIREBASE
+            if (score === totalQuestionsPerRound && idUsuario) {
+                document.getElementById('msg-conquista').style.display = "block";
+                
+                database.ref('alunos/' + idUsuario + '/medalhas').update({
+                    quiz100: true
+                }).then(() => {
+                    console.log("Medalha de Mestre salva com sucesso!");
+                });
+            }
+        }
+
         document.getElementById('next-btn').onclick = () => {
             currentQuestion++;
             if (currentQuestion < selectedQuestions.length) {
                 loadQuestion();
             } else {
-                document.getElementById('quiz').style.display = "none";
-                document.getElementById('result-screen').style.display = "block";
-                document.getElementById('final-score').innerText = score + " / " + totalQuestionsPerRound;
+                finalizarQuiz();
             }
         };
 

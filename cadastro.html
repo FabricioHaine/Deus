@@ -5,23 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Aluno - Elim Church</title>
     <link rel="icon" type="image/png" href="img/elim01.png">
+    
+    <script>
+        const logado = localStorage.getItem('elim_aluno_id');
+        const tipo = localStorage.getItem('elim_tipo_usuario');
+        if (logado) {
+            window.location.href = (tipo === 'admin') ? "admin.html" : "perfil.html";
+        }
+    </script>
+
     <style>
         :root {
             --azul-escuro: #1a2a6c;
             --turquesa: #00e5ff;
             --branco: #ffffff;
+            --ouro: #d4af37;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
         body {
             background: linear-gradient(135deg, var(--azul-escuro) 0%, #0a1128 100%);
+            /* Ajuste para permitir scroll */
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Alinha no topo para não cortar ao scrolar */
             color: var(--branco);
             padding: 20px;
+            overflow-y: auto; 
         }
 
         .cadastro-card {
@@ -29,10 +41,14 @@
             padding: 40px;
             border-radius: 20px;
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             width: 100%;
             max-width: 450px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-top: auto;
+            margin-bottom: auto; /* Mantém centralizado se houver espaço */
         }
 
         .cadastro-card h2 { color: var(--turquesa); margin-bottom: 10px; }
@@ -41,19 +57,21 @@
         .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.75rem; margin-bottom: 5px; opacity: 0.8; letter-spacing: 1px; }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px 15px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             color: white;
-            font-size: 0.95rem;
+            font-size: 16px; /* Evita o zoom automático do iOS ao clicar no input */
             outline: none;
             transition: 0.3s;
         }
 
-        input:focus { border-color: var(--turquesa); background: rgba(255, 255, 255, 0.15); }
+        select option { background: #1a2a6c; color: white; }
+
+        input:focus, select:focus { border-color: var(--turquesa); background: rgba(255, 255, 255, 0.15); }
 
         button {
             width: 100%;
@@ -72,14 +90,48 @@
 
         button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4); }
 
+        .link-login { margin-top: 25px; font-size: 0.85rem; opacity: 0.8; }
+        .link-login a { color: var(--turquesa); text-decoration: none; font-weight: bold; }
+
+        /* Ajustes específicos para Celulares Pequenos */
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .cadastro-card { padding: 25px 20px; }
+            .cadastro-card h2 { font-size: 1.4rem; }
+        }
+
+        .conquista-popup {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            background: white;
+            color: #1a2a6c;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 229, 255, 0.6);
+            z-index: 10000;
+            text-align: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 280px;
+        }
+
+        .conquista-popup.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
         .footer-info { margin-top: 20px; font-size: 0.7rem; opacity: 0.5; }
     </style>
 </head>
 <body>
 
     <div class="cadastro-card">
-        <h2>Área do Aluno</h2>
-        <p>Preencha seus dados para acessar o portal.</p>
+        <img src="img/elim01.png" width="60" style="margin-bottom: 10px;">
+        <h2>Criar Conta</h2>
+        <p>Preencha seus dados para iniciar sua jornada.</p>
 
         <div class="form-group">
             <label>NOME COMPLETO</label>
@@ -92,15 +144,47 @@
         </div>
 
         <div class="form-group">
+            <label>SUA UNIDADE (IGREJA)</label>
+            <select id="alunoUnidade">
+                <option value="" disabled selected>Selecione sua igreja...</option>
+                <option value="CasaBlanca">Elim CasaBlanca</option>
+                <option value="Socorro">Elim Socorro</option>
+                <option value="Jacira">Elim Jacira</option>
+                <option value="Reis">Elim Reis</option>
+                <option value="Bandeirantes">Elim Bandeirantes</option>
+                <option value="Pq. Brasil">Elim Pq. Brasil</option>
+                <option value="Orion">Elim Orion</option>
+                <option value="Calu">Elim Calu</option>
+                <option value="Oliveira">Elim Oliveira</option>
+                <option value="Presidente Epitácio">Elim Presidente Epitácio</option>
+                <option value="Bastos">Elim Bastos</option>
+                <option value="Brasilândia">Elim Brasilândia</option>
+                <option value="Ceilândia">Elim Ceilândia</option>
+                <option value="Londrina">Elim Londrina</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label>WHATSAPP / TELEFONE</label>
             <input type="tel" id="alunoTelefone" maxlength="15" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)">
         </div>
 
-        <button onclick="realizarCadastro()">Acessar Material</button>
-        
-        <div class="footer-info">Elim Church CasaBlanca - Sistema de Gestão</div>
+        <button onclick="realizarCadastro()">Cadastrar e Entrar</button>
+
+        <div class="link-login">
+            Já possui um cadastro? <a href="login.html">Fazer Login</a>
+        </div>
+
+        <div class="footer-info">Elim Church - Sistema de Gestão</div>
     </div>
 
+    <div id="popupConquista" class="conquista-popup">
+        <h3>🏆 BEM-VINDO!</h3>
+        <span style="font-size: 4rem; display: block; margin: 15px 0;">📖</span>
+        <p style="color: #333; font-weight: bold;">Primeira Medalha: <br>Primeiros Passos!</p>
+    </div>
+
+    <!-- Scripts do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -118,7 +202,6 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Função para máscara de telefone (XX) XXXXX-XXXX
         function mascaraTelefone(i) {
             let v = i.value.replace(/\D/g, ""); 
             v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); 
@@ -130,50 +213,49 @@
             const nome = document.getElementById('alunoNome').value.trim();
             const email = document.getElementById('alunoEmail').value.trim();
             const telefone = document.getElementById('alunoTelefone').value.trim();
+            const unidade = document.getElementById('alunoUnidade').value;
 
-            if (nome === "") {
-                alert("Por favor, preencha o seu nome.");
+            if (nome === "" || email === "" || telefone === "" || !unidade) {
+                alert("Por favor, preencha todos os campos e selecione sua igreja.");
                 return;
             }
 
-            // Verificação de acesso especial (Sem comentários óbvios)
-            const KEY = "YWNwYWk1NTc="; 
-            if (btoa(nome.toLowerCase()) === KEY) {
-                localStorage.setItem('elim_tipo_usuario', 'admin');
-                localStorage.setItem('elim_aluno_nome', 'Administrador');
-                localStorage.setItem('elim_aluno_id', 'admin_master');
-                
-                if (confirm("Acesso confirmado. Ir para o Painel?")) {
-                    window.location.href = "admin.html";
+            const apenasNumeros = telefone.replace(/\D/g, "");
+            const alunoId = "id_" + apenasNumeros;
+            const dataHoje = new Date().toLocaleDateString('pt-br');
+            const hora = new Date().toLocaleTimeString('pt-br', {hour: '2-digit', minute:'2-digit'});
+
+            database.ref('alunos/' + alunoId).once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    alert("Este número de telefone já possui cadastro. Faça o login!");
+                    window.location.href = "login.html";
                 } else {
-                    window.location.href = "index.html";
+                    return database.ref('alunos/' + alunoId).set({
+                        nome: nome,
+                        email: email,
+                        contato: telefone,
+                        unidade: unidade,
+                        dataCadastro: dataHoje,
+                        ultimoAcesso: dataHoje + " às " + hora,
+                        avatar: "👤", 
+                        streak: { count: 1, ultima: dataHoje },
+                        medalhas: { primeiros_passos: true },
+                        licoesConcluidas: [0]
+                    }).then(() => {
+                        localStorage.setItem('elim_aluno_id', alunoId);
+                        localStorage.setItem('elim_aluno_nome', nome);
+                        localStorage.setItem('elim_tipo_usuario', 'aluno');
+                        
+                        document.getElementById('popupConquista').classList.add('show');
+                        
+                        setTimeout(() => { 
+                            window.location.href = "perfil.html"; 
+                        }, 2500);
+                    });
                 }
-                return;
-            }
-
-            if (email === "" || telefone === "") {
-                alert("Para o cadastro completo, e-mail e telefone são obrigatórios.");
-                return;
-            }
-
-            const alunoId = "id_" + telefone.replace(/\D/g, "");
-            const dataHoraAtual = new Date().toLocaleDateString('pt-br') + " às " + new Date().toLocaleTimeString('pt-br', {hour: '2-digit', minute:'2-digit'});
-
-            database.ref('alunos/' + alunoId).update({
-                nome: nome,
-                email: email,
-                contato: telefone,
-                dataCadastro: new Date().toLocaleDateString('pt-br'),
-                ultimoAcesso: dataHoraAtual
-            }).then(() => {
-                localStorage.setItem('elim_aluno_id', alunoId);
-                localStorage.setItem('elim_aluno_nome', nome);
-                localStorage.setItem('elim_tipo_usuario', 'aluno');
-                
-                window.location.href = "index.html"; 
             }).catch((error) => {
-                console.error("Erro:", error);
-                alert("Falha na conexão.");
+                console.error("Erro no cadastro:", error);
+                alert("Houve um problema de conexão.");
             });
         }
     </script>

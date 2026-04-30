@@ -14,15 +14,57 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #607d8b; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #eceff1; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #cfd8dc; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #f5f7f8; padding: 20px; border-radius: 10px; border-left: 5px solid #607d8b; margin-top: 30px; }
-        .btn-voltar { display: inline-block; margin-top: 40px; text-decoration: none; color: #1a2a6c; font-weight: bold; border: 2px solid #1a2a6c; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
-        .btn-voltar:hover { background: #1a2a6c; color: white; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #f5f7f8; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #607d8b; 
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #607d8b;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(96, 125, 139, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #455a64;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(96, 125, 139, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 16: Longe de Casa</p>
+        <p>Capítulo 17: Longe de Casa</p>
     </header>
     <div class="content">
         <div class="verse-box">
@@ -33,10 +75,52 @@
         <p>Depois de ignorarem tantos avisos, o pior aconteceu: Jerusalém foi destruída e o povo foi levado como prisioneiro para a Babilônia. Eles perderam o Templo, suas casas e sua liberdade. Parecia que Deus tinha se esquecido deles, mas, na verdade, esse tempo serviu para eles refletirem e sentirem saudade do Criador.</p>
         <h2>Fé na Prova de Fogo</h2>
         <p>Mesmo em uma terra que não servia a Deus, jovens como Daniel e seus amigos decidiram não se corromper. Eles provaram que é possível ser fiel a Deus mesmo quando tudo ao redor diz o contrário. O exílio foi um deserto de 70 anos que purificou o coração da nação.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> Às vezes a gente só valoriza o que tem quando perde, né? O exílio nos ensina que o pecado nos tira do lugar de paz, mas que Deus continua sendo Deus mesmo quando estamos vivendo as consequências das nossas escolhas. O importante é não perder a nossa identidade no meio de um mundo que quer nos moldar.
         </div>
-        <center><a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a></center>
+
+        <center>
+            <button onclick="marcarComoConcluido(17)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Capítulo 17 concluído! Mantenha sua identidade firme em qualquer lugar.");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

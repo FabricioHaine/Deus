@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - Elim Church</title>
+    <link rel="icon" type="image/png" href="img/elim01.png">
     
     <script>
+        // Trava de segurança: só entra se o tipo for admin
         if (localStorage.getItem('elim_tipo_usuario') !== 'admin') {
-            window.location.href = "index.html";
+            window.location.href = "login.html";
         }
     </script>
 
@@ -22,17 +24,17 @@
         body {
             background-color: #f4f7f6;
             font-family: 'Segoe UI', sans-serif;
-            padding: 20px;
+            padding: 15px;
             color: #333;
         }
 
         .admin-container {
-            max-width: 1100px; /* Aumentado para acomodar a nova coluna de E-mail */
+            max-width: 1100px;
             margin: 0 auto;
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
         }
 
         header {
@@ -41,51 +43,67 @@
             align-items: center;
             border-bottom: 2px solid var(--azul-escuro);
             padding-bottom: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        h1 { color: var(--azul-escuro); font-size: 1.5rem; }
+        h1 { color: var(--azul-escuro); font-size: 1.5rem; margin: 0; }
 
         .stats {
             background: var(--azul-escuro);
             color: white;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 50px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        /* Estilo do Filtro */
+        .filter-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
+        .filter-section select {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            cursor: pointer;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th {
             background-color: #f8f9fa;
             text-align: left;
-            padding: 15px;
+            padding: 12px;
             border-bottom: 2px solid #eee;
             color: #666;
+            font-size: 0.75rem;
             text-transform: uppercase;
+        }
+
+        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+
+        .unidade-tag {
+            display: block;
             font-size: 0.7rem;
-            letter-spacing: 0.5px;
+            color: #666;
+            margin-top: 4px;
+            font-weight: normal;
         }
 
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.85rem;
-            word-break: break-word; /* Evita que e-mails longos quebrem o layout */
-        }
-
-        tr:hover { background-color: #f9f9f9; }
-
-        .btn-voltar {
-            text-decoration: none;
-            color: var(--azul-escuro);
+        .hora-acesso {
+            color: #1a2a6c;
             font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
+            background: #e0f7fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
         }
 
         .btn-excluir {
@@ -95,65 +113,117 @@
             padding: 6px 12px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            font-weight: bold;
             transition: 0.3s;
         }
 
-        .btn-excluir:hover {
-            background: var(--danger);
-            color: white;
-        }
+        .btn-excluir:hover { background: var(--danger); color: white; }
 
-        .sem-dados {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        .hora-acesso {
-            color: #1a2a6c;
+        .btn-sair {
+            background: #eee;
+            color: #333;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
-            background: #e0f7fa;
-            padding: 4px 8px;
-            border-radius: 4px;
-            white-space: nowrap;
+            font-size: 0.8rem;
         }
 
-        .email-link {
-            color: #555;
-            text-decoration: none;
-            font-style: italic;
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            .filter-section { flex-direction: column; text-align: center; }
+            thead { display: none; }
+            tr {
+                display: block;
+                border: 1px solid #ddd;
+                margin-bottom: 15px;
+                border-radius: 10px;
+                padding: 10px;
+                background: #fff;
+            }
+            td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: right;
+                padding: 10px 5px;
+                border-bottom: 1px solid #f1f1f1;
+            }
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: var(--azul-escuro);
+                text-transform: uppercase;
+                font-size: 0.7rem;
+            }
+            td:last-child { border-bottom: none; justify-content: center; }
+            .btn-excluir { width: 100%; padding: 12px; margin-top: 5px; }
         }
+
+        .voltar-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .voltar-link:hover { color: var(--azul-escuro); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="admin-container">
         <header>
-            <h1>Gestão de Alunos - Elim Church</h1>
-            <div class="stats" id="total-alunos">Total: 0</div>
+            <h1>Gestão de Alunos</h1>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="stats" id="total-alunos">Total: 0</div>
+                <button onclick="logoutAdmin()" class="btn-sair">Sair</button>
+            </div>
         </header>
+
+        <div class="filter-section">
+            <label style="font-weight: bold;">Filtrar por Unidade:</label>
+            <select id="filtroUnidade" onchange="carregarAlunos()">
+                <option value="TODAS">Mostrar Todas as Igrejas</option>
+                <option value="CasaBlanca">Elim CasaBlanca</option>
+                <option value="Socorro">Elim Socorro</option>
+                <option value="Jacira">Elim Jacira</option>
+                <option value="Reis">Elim Reis</option>
+                <option value="Bandeirantes">Elim Bandeirantes</option>
+                <option value="Pq. Brasil">Elim Pq. Brasil</option>
+                <option value="Orion">Elim Orion</option>
+                <option value="Calu">Elim Calu</option>
+                <option value="Oliveira">Elim Oliveira</option>
+                <option value="Presidente Epitácio">Elim Presidente Epitácio</option>
+                <option value="Bastos">Elim Bastos</option>
+                <option value="Brasilândia">Elim Brasilândia</option>
+                <option value="Ceilândia">Elim Ceilândia</option>
+                <option value="Londrina">Elim Londrina</option>
+            </select>
+        </div>
 
         <table id="tabela-alunos">
             <thead>
                 <tr>
-                    <th>Nome do Aluno</th>
-                    <th>E-mail</th>
+                    <th>Aluno / Unidade</th>
                     <th>WhatsApp</th>
-                    <th>Data Cadastro</th>
+                    <th>E-mail</th>
+                    <th>Cadastro</th>
                     <th>Último Acesso</th>
                     <th>Ações</th>
                 </tr>
             </thead>
-            <tbody id="lista-corpo">
-                </tbody>
+            <tbody id="lista-corpo"></tbody>
         </table>
 
-        <div id="mensagem-vazia" class="sem-dados" style="display: none;">
-            Nenhum aluno cadastrado no banco de dados.
+        <div id="mensagem-vazia" style="display:none; text-align:center; padding:40px; color:#999;">
+            Nenhum aluno encontrado para esta seleção.
         </div>
 
-        <a href="index.html" class="btn-voltar">← Voltar ao Site Principal</a>
+        <a href="index.html" class="voltar-link">← Voltar ao site principal</a>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -177,48 +247,60 @@
             const corpoTabela = document.getElementById('lista-corpo');
             const totalTexto = document.getElementById('total-alunos');
             const msgVazia = document.getElementById('mensagem-vazia');
+            const filtroUnidade = document.getElementById('filtroUnidade').value;
 
             database.ref('alunos').on('value', (snapshot) => {
-                const dados = snapshot.val();
                 corpoTabela.innerHTML = "";
-                
-                if (!dados) {
-                    msgVazia.style.display = "block";
-                    totalTexto.innerText = "Total: 0";
-                    return;
-                }
-
-                msgVazia.style.display = "none";
                 let contador = 0;
 
-                Object.keys(dados).forEach(id => {
-                    contador++;
-                    const aluno = dados[id];
-                    const linha = document.createElement('tr');
-                    
-                    // Renderiza as novas colunas: Email e Telefone separados
-                    linha.innerHTML = `
-                        <td><strong>${aluno.nome}</strong></td>
-                        <td><span class="email-link">${aluno.email || '---'}</span></td>
-                        <td>${aluno.contato || '---'}</td>
-                        <td>${aluno.dataCadastro || '--'}</td>
-                        <td><span class="hora-acesso">${aluno.ultimoAcesso || '--'}</span></td>
-                        <td>
-                            <button class="btn-excluir" onclick="excluirAluno('${id}')">Excluir</button>
-                        </td>
-                    `;
-                    
-                    corpoTabela.appendChild(linha);
-                });
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        const aluno = childSnapshot.val();
+                        const id = childSnapshot.key;
 
-                totalTexto.innerText = `Total: ${contador}`;
+                        // Lógica do Filtro: Mostra se for "TODAS" ou se bater com a unidade salva
+                        if (filtroUnidade === "TODAS" || aluno.unidade === filtroUnidade) {
+                            contador++;
+                            
+                            const linha = `
+                                <tr>
+                                    <td data-label="Aluno">
+                                        <strong>${aluno.nome || '---'}</strong>
+                                        <span class="unidade-tag">📍 Elim ${aluno.unidade || 'Não informada'}</span>
+                                    </td>
+                                    <td data-label="WhatsApp">${aluno.contato || '---'}</td>
+                                    <td data-label="E-mail">${aluno.email || '---'}</td>
+                                    <td data-label="Cadastro">${aluno.dataCadastro || '--'}</td>
+                                    <td data-label="Acesso"><span class="hora-acesso">${aluno.ultimoAcesso || '--'}</span></td>
+                                    <td>
+                                        <button class="btn-excluir" onclick="excluirAluno('${id}', '${aluno.nome}')">Excluir</button>
+                                    </td>
+                                </tr>
+                            `;
+                            corpoTabela.innerHTML += linha;
+                        }
+                    });
+                    
+                    totalTexto.innerText = `Total: ${contador}`;
+                    msgVazia.style.display = (contador === 0) ? "block" : "none";
+                } else {
+                    msgVazia.style.display = "block";
+                    totalTexto.innerText = "Total: 0";
+                }
             });
         }
 
-        function excluirAluno(id) {
-            if (confirm("Deseja realmente excluir este registro? Esta ação não pode ser desfeita.")) {
-                database.ref('alunos/' + id).remove();
+        function excluirAluno(id, nome) {
+            if (confirm(`Tem certeza que deseja remover o cadastro de ${nome}?`)) {
+                database.ref('alunos/' + id).remove()
+                .then(() => alert("Aluno removido com sucesso."))
+                .catch(err => alert("Erro ao excluir: " + err));
             }
+        }
+
+        function logoutAdmin() {
+            localStorage.clear();
+            window.location.href = "login.html";
         }
 
         carregarAlunos();

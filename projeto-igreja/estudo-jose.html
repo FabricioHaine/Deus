@@ -7,17 +7,64 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #f4f7f6; line-height: 1.8; color: #333; }
-        header { background: #2c3e50; color: white; padding: 40px; text-align: center; }
-        .content { max-width: 800px; margin: 30px auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; margin-bottom: 20px; border-left: 5px solid #d4af37; padding-left: 15px; }
-        .verse-box { background: #fdfae6; border-radius: 8px; padding: 20px; font-style: italic; margin-bottom: 30px; border: 1px solid #f1e4a0; }
-        .btn-voltar { display: inline-block; margin-top: 30px; text-decoration: none; color: #2c3e50; font-weight: bold; }
+        header { background: #1a2a6c; color: white; padding: 50px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; }
+        .content { max-width: 800px; margin: -30px auto 60px; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #d4af37; padding-left: 15px; line-height: 1.2; }
+        .verse-box { background: #fef9e7; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #f9e79f; text-align: center; font-size: 1.15rem; }
+        p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #fefcf0; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #d4af37; 
+            margin-top: 30px; 
+            margin-bottom: 30px; 
+        }
+        
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #d4af37;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #b8962e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 6: José e a Providência Divina</p>
+        <p>Capítulo 08: José e a Providência Divina</p>
     </header>
 
     <div class="content">
@@ -32,7 +79,51 @@
         <h2>Perdão e Restauração</h2>
         <p>A história de José nos ensina que nada foge ao controle de Deus. Mesmo o mal que fazem contra nós pode ser usado por Ele para um propósito maior de salvação.</p>
 
-        <a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a>
+        <div class="highlight-jovem">
+            <strong>Conexão Jovem:</strong> A vida de José é a prova de que o seu "hoje" não define o seu "amanhã". Ele foi de escravo a governador porque manteve o caráter e a fé, mesmo na pior fase. Quando o mundo tentar te derrubar ou quando alguém te ferir, respira fundo, foca no propósito de Deus e entenda: Ele tem poder para pegar qualquer "maldade" que te fizeram e transformar em uma plataforma para o teu sucesso e para ajudar os outros!
+        </div>
+
+        <center>
+            <button onclick="marcarComoConcluido(8)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Parabéns! Capítulo 08 concluído.");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -14,15 +14,57 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #9b59b6; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #f5eef8; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #d7bde2; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #faf5ff; padding: 20px; border-radius: 10px; border-left: 5px solid #9b59b6; margin-top: 30px; }
-        .btn-voltar { display: inline-block; margin-top: 40px; text-decoration: none; color: #1a2a6c; font-weight: bold; border: 2px solid #1a2a6c; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
-        .btn-voltar:hover { background: #1a2a6c; color: white; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #faf5ff; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #9b59b6; 
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #9b59b6;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #8e44ad;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 15: A Voz que Não se Cala</p>
+        <p>Capítulo 16: A Voz que Não se Cala</p>
     </header>
     <div class="content">
         <div class="verse-box">
@@ -33,10 +75,52 @@
         <p>No meio da confusão do reino dividido, Deus levantou homens e mulheres chamados profetas (como Elias, Isaías e Jeremias). A missão deles não era "adivinhar o futuro" por diversão, mas chamar o povo de volta para o arrependimento. Eles denunciavam as injustiças e avisavam sobre as consequências de viver longe de Deus.</p>
         <h2>Uma Esperança Além da Dor</h2>
         <p>Mesmo quando as notícias eram ruins, os profetas sempre traziam uma luz: a promessa de que Deus enviaria o Messias. Eles falavam de um tempo em que o coração das pessoas seria transformado e a paz voltaria a reinar. Eles eram a voz de Deus em tempos de silêncio espiritual.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> Ser profeta hoje é ter coragem de falar a verdade mesmo quando ninguém quer ouvir. É ser aquela pessoa que aponta para o que é certo quando todo mundo está indo pelo caminho mais fácil. Deus ainda procura jovens que não tenham medo de ser Sua voz no meio da galera!
         </div>
-        <center><a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a></center>
+
+        <center>
+            <button onclick="marcarComoConcluido(16)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Incrível! Capítulo 16 concluído. Seja a voz de Deus onde você estiver!");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

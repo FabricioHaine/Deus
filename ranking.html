@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Frequência - Elim Church</title>
+    <link rel="icon" type="image/png" href="img/elim01.png">
+    <style>
+        :root {
+            --azul-escuro: #1a2a6c;
+            --turquesa: #00e5ff;
+            --branco: #ffffff;
+            --ouro: #ffd700;
+            --prata: #c0c0c0;
+            --bronze: #cd7f32;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--azul-escuro) 0%, var(--turquesa) 100%);
+            min-height: 100vh;
+            color: var(--branco);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .ranking-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 30px;
+        }
+
+        h2 { text-align: center; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .lista-ranking { list-style: none; }
+
+        .item-ranking {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .posicao {
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 40px;
+        }
+
+        .nome-aluno { flex-grow: 1; font-weight: 500; }
+
+        .foguinhos {
+            font-weight: bold;
+            color: #ff9800;
+        }
+
+        /* Cores para o Top 3 */
+        .item-ranking:nth-child(1) .posicao { color: var(--ouro); font-size: 1.8rem; }
+        .item-ranking:nth-child(2) .posicao { color: var(--prata); }
+        .item-ranking:nth-child(3) .posicao { color: var(--bronze); }
+
+        .btn-voltar {
+            margin-top: 20px;
+            color: var(--branco);
+            text-decoration: none;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ranking-container">
+        <h2>🏆 Top Frequência</h2>
+        <div id="loading" style="text-align: center;">Buscando os mais dedicados...</div>
+        <ul class="lista-ranking" id="lista-ranking">
+            </ul>
+        <div style="text-align: center;">
+            <a href="index.html" class="btn-voltar">← Voltar ao Início</a>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function carregarRanking() {
+            // Buscamos os alunos ordenados pelo count do streak
+            database.ref('alunos').orderByChild('streak/count').limitToLast(10).on('value', (snapshot) => {
+                const listaUl = document.getElementById('lista-ranking');
+                document.getElementById('loading').style.display = 'none';
+                listaUl.innerHTML = '';
+
+                let alunosArray = [];
+                snapshot.forEach((child) => {
+                    alunosArray.push(child.val());
+                });
+
+                // O Firebase ordena do menor para o maior, então invertemos para o ranking
+                alunosArray.reverse();
+
+                alunosArray.forEach((aluno, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'item-ranking';
+                    
+                    // Ícone especial para o primeiro lugar
+                    const medalha = (index === 0) ? '👑' : (index + 1) + 'º';
+                    const streakCount = (aluno.streak) ? aluno.streak.count : 0;
+
+                    li.innerHTML = `
+                        <div class="posicao">${medalha}</div>
+                        <div class="nome-aluno">${aluno.nome || 'Aluno'}</div>
+                        <div class="foguinhos">${streakCount} 🔥</div>
+                    `;
+                    listaUl.appendChild(li);
+                });
+            });
+        }
+
+        carregarRanking();
+    </script>
+</body>
+</html>

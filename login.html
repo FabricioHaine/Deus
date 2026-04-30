@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Elim Church</title>
+    <link rel="icon" type="image/png" href="img/elim01.png">
+    <style>
+        body {
+            background: linear-gradient(180deg, #0a1128 0%, #1a2a6c 100%);
+            color: white; font-family: 'Segoe UI', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px; border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h2 { color: #00e5ff; margin: 15px 0; }
+        p { font-size: 0.85rem; opacity: 0.7; margin-bottom: 20px; }
+
+        input {
+            width: 100%; padding: 14px; margin: 10px 0;
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); 
+            outline: none;
+            background: rgba(255, 255, 255, 0.1); color: white;
+            text-align: center; font-size: 1rem;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #00e5ff; background: rgba(255,255,255,0.2); }
+
+        button {
+            background: #00e5ff; color: #0a1128;
+            border: none; padding: 14px;
+            border-radius: 8px; font-weight: bold;
+            cursor: pointer; width: 100%; transition: 0.3s;
+            margin-top: 10px; text-transform: uppercase;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 229, 255, 0.4); }
+        
+        .links-aux { margin-top: 20px; }
+        a { color: #00e5ff; text-decoration: none; font-size: 0.85rem; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <img src="img/elim01.png" width="70">
+        <h2>Entrar</h2>
+        <p>Use seu Telefone para acessar.</p>
+        
+        <input type="text" id="matriculaInput" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)">
+        <button onclick="fazerLogin()">Acessar Portal</button>
+        
+        <div class="links-aux">
+            <a href="cadastro.html">Não tenho cadastro</a>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function mascaraTelefone(i) {
+            let v = i.value.replace(/\D/g, ""); 
+            // Se for o código de admin "000", não aplica máscara de telefone
+            if (v !== "000") {
+                v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); 
+                v = v.replace(/(\d{5})(\d)/, "$1-$2");    
+            }
+            i.value = v;
+        }
+
+        function fazerLogin() {
+            const inputRaw = document.getElementById('matriculaInput').value.trim();
+            const apenasNumeros = inputRaw.replace(/\D/g, "");
+            
+            if (apenasNumeros === "") {
+                alert("Por favor, digite seu telefone.");
+                return;
+            }
+
+            // --- LÓGICA DE ADMINISTRADOR (CHAVE MESTRA) ---
+            if (apenasNumeros === "000") {
+                localStorage.setItem('elim_aluno_id', 'ADMIN_MASTER');
+                localStorage.setItem('elim_aluno_nome', 'Administrador Elim');
+                localStorage.setItem('elim_tipo_usuario', 'admin');
+                window.location.href = "admin.html"; // Redireciona para o Painel Administrativo
+                return;
+            }
+
+            // --- LÓGICA DE ALUNO ---
+            const idFormatado = "id_" + apenasNumeros;
+
+            database.ref('alunos/' + idFormatado).once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    const dados = snapshot.val();
+                    
+                    // Salva as informações essenciais
+                    localStorage.setItem('elim_aluno_id', idFormatado);
+                    localStorage.setItem('elim_aluno_nome', dados.nome);
+                    localStorage.setItem('elim_tipo_usuario', 'aluno');
+                    
+                    // Registro de acesso
+                    const dataHoje = new Date().toLocaleDateString('pt-br');
+                    const hora = new Date().toLocaleTimeString('pt-br', {hour: '2-digit', minute:'2-digit'});
+                    
+                    database.ref('alunos/' + idFormatado).update({
+                        ultimoAcesso: dataHoje + " às " + hora
+                    });
+
+                    window.location.href = "perfil.html";
+                } else {
+                    alert("Acesso negado! Telefone não encontrado no sistema.");
+                }
+            }).catch(error => {
+                console.error("Erro no Firebase:", error);
+                alert("Erro ao conectar com o banco de dados. Verifique sua conexão.");
+            });
+        }
+    </script>
+</body>
+</html>

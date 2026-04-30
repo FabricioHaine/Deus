@@ -1,254 +1,424 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elim Church - CasaBlanca</title>
-    
-    <script>
-        if (!localStorage.getItem('elim_aluno_id')) {
-            window.location.href = "cadastro.html";
-        }
-    </script>
-
-    <link rel="icon" type="image/png" href="img/elim01.png">
-    <style>
-        :root {
-            --azul-escuro: #1a2a6c;
-            --turquesa: #00e5ff;
-            --branco: #ffffff;
-            --sombra: rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(180deg, var(--azul-escuro) 0%, var(--turquesa) 100%);
-            min-height: 100vh;
-            color: var(--branco);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .palmeira-bg {
-            position: fixed;
-            bottom: -50px;
-            left: -30px;
-            font-size: 15rem;
-            opacity: 0.05;
-            transform: rotate(15deg);
-            pointer-events: none;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 1000px;
-            padding: 60px 20px;
-            text-align: center;
-            z-index: 2;
-        }
-
-        .logo-container {
-            margin-bottom: 40px;
-        }
-
-        .logo-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px var(--sombra);
-        }
-
-        h1 {
-            font-size: 3rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: 20px;
-            text-shadow: 2px 2px 10px var(--sombra);
-        }
-
-        .subtitulo {
-            font-size: 1.8rem;
-            opacity: 0.9;
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
-
-        .saudacao-aluno {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 15px;
-            font-weight: bold;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            color: var(--branco);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.2);
-            border-color: var(--turquesa);
-            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
-        }
-
-        .card-destaque:hover {
-            border-color: #ffab00;
-            box-shadow: 0 15px 40px rgba(255, 171, 0, 0.3);
-        }
-
-        .card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 5px 5px var(--sombra));
-        }
-
-        .card h2 {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            opacity: 0.8;
-            line-height: 1.4;
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 40px 30px;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-
-        .btn-logout {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 0.7rem;
-            opacity: 0.6;
-        }
-
-        .btn-logout:hover { opacity: 1; background: rgba(255,0,0,0.2); }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .logo-img { width: 140px; height: 140px; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="palmeira-bg">🌴</div>
-
-    <div class="main-container">
-        <header class="logo-container">
-            <img src="img/elim01.png" alt="Elim Church" class="logo-img">
-            <h1>Elim Church</h1>
-            <p class="subtitulo">CasaBlanca</p>
-            <p>Um Oásis de Palavra e Vida</p>
-            
-            <div class="saudacao-aluno" id="nome-aluno-display">
-                Bem-vindo, Aluno(a)!
-            </div>
-        </header>
-
-        <nav class="menu-grid">
-            <a href="./projeto-igreja/historia-elim.html" class="card card-destaque">
-                <div class="card-icon">🏛️</div>
-                <h2>Nossa História</h2>
-                <p>Conheça a visão e o propósito do Ministério Elim Church Mundial.</p>
-            </a>
-
-            <a href="estudos.html" class="card">
-                <div class="card-icon">📚</div>
-                <h2>Biblioteca</h2>
-                <p>Navegue pela cronologia bíblica, do Verbo até a Igreja.</p>
-            </a>
-
-            <a href="quiz.html" class="card">
-                <div class="card-icon">🧩</div>
-                <h2>Desafio Quiz</h2>
-                <p>Teste seus conhecimentos com questões aleatórias sobre os temas.</p>
-            </a>
-        </nav>
-
-        <footer>
-            <p>Elim Church CasaBlanca — "Onde há fontes e palmeiras."</p>
-            <button class="btn-logout" onclick="fazerLogout()">Sair do Sistema</button>
-        </footer>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
-            authDomain: "elim-church-d2117.firebaseapp.com",
-            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
-            projectId: "elim-church-d2117",
-            storageBucket: "elim-church-d2117.firebasestorage.app",
-            messagingSenderId: "687076464234",
-            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
-        };
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Elim Church - CasaBlanca</title>
         
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        <script>
+            if (!localStorage.getItem('elim_aluno_id')) {
+                window.location.href = "cadastro.html";
+            }
+        </script>
 
-        const nomeSalvo = localStorage.getItem('elim_aluno_nome');
-        const idSalvo = localStorage.getItem('elim_aluno_id');
+        <link rel="icon" type="image/png" href="img/elim01.png">
+        <style>
+            :root {
+                --azul-escuro: #1a2a6c;
+                --turquesa: #00e5ff;
+                --branco: #ffffff;
+                --sombra: rgba(0, 0, 0, 0.2);
+                --laranja-fogo: #ff9800;
+            }
 
-        if (nomeSalvo) {
-            document.getElementById('nome-aluno-display').innerText = "Paz do Senhor, " + nomeSalvo + "!";
-            
-            // ATUALIZAÇÃO AUTOMÁTICA DE DATA E HORA NO BANCO
-            if (idSalvo && idSalvo !== 'admin_master') {
-                const dataHoraAtual = new Date().toLocaleDateString('pt-br') + " às " + new Date().toLocaleTimeString('pt-br', {hour: '2-digit', minute:'2-digit'});
-                database.ref('alunos/' + idSalvo).update({
-                    ultimoAcesso: dataHoraAtual
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', sans-serif;
+            }
+
+            body {
+                background: linear-gradient(180deg, var(--azul-escuro) 0%, var(--turquesa) 100%);
+                min-height: 100vh;
+                color: var(--branco);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-bottom: 60px;
+            }
+
+            .btn-perfil {
+                background: rgba(0, 229, 255, 0.2);
+                border: 1px solid var(--turquesa);
+                color: var(--turquesa);
+                padding: 8px 25px;
+                border-radius: 50px;
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: bold;
+                display: inline-block;
+                margin-top: 15px;
+                transition: 0.3s;
+            }
+
+            .btn-perfil:hover {
+                background: var(--turquesa);
+                color: var(--azul-escuro);
+                transform: scale(1.05);
+            }
+
+            .palmeira-bg {
+                position: fixed;
+                bottom: -50px;
+                left: -30px;
+                font-size: 15rem;
+                opacity: 0.05;
+                transform: rotate(15deg);
+                pointer-events: none;
+            }
+
+            .main-container {
+                width: 100%;
+                max-width: 1000px;
+                padding: 20px;
+                text-align: center;
+                z-index: 2;
+            }
+
+            .streak-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                background: rgba(255, 152, 0, 0.2);
+                border: 1px solid var(--laranja-fogo);
+                padding: 10px 25px;
+                border-radius: 50px;
+                margin: 40px auto 30px auto;
+                width: fit-content;
+            }
+
+            .fire-icon {
+                font-size: 1.5rem;
+                animation: flicker 1.5s infinite alternate;
+            }
+
+            .streak-text {
+                font-weight: bold;
+                color: var(--laranja-fogo);
+                text-transform: uppercase;
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+
+            @keyframes flicker {
+                0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--laranja-fogo)); }
+                100% { transform: scale(1.2); filter: drop-shadow(0 0 10px red); }
+            }
+
+            header { margin-bottom: 50px; }
+
+            .logo-img { 
+                width: 150px; height: 150px; 
+                border-radius: 50%; border: 4px solid rgba(255, 255, 255, 0.3);
+                margin-bottom: 20px;
+            }
+
+            h1 { font-size: 2.5rem; letter-spacing: 3px; text-transform: uppercase; }
+
+            .saudacao-aluno {
+                background: rgba(255, 255, 255, 0.15);
+                padding: 12px 30px;
+                border-radius: 50px;
+                display: inline-block;
+                margin: 25px 0 10px 0;
+                font-weight: bold;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+
+            .card-palavra {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 40px 25px;
+                border-radius: 25px;
+                margin: 0 auto 60px auto;
+                max-width: 650px;
+                box-shadow: 0 15px 35px var(--sombra);
+            }
+
+            .card-palavra h3 {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                color: var(--turquesa);
+                margin-bottom: 20px;
+                letter-spacing: 2px;
+            }
+
+            #texto-biblico {
+                font-size: 1.3rem;
+                font-style: italic;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+
+            #ref-biblica {
+                display: block;
+                text-align: right;
+                font-weight: bold;
+                color: var(--turquesa);
+                font-size: 1rem;
+            }
+
+            .menu-grid { 
+                display: grid; 
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+                gap: 30px; 
+                margin-top: 20px;
+            }
+
+            .card {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 40px 25px;
+                border-radius: 25px;
+                text-decoration: none;
+                color: var(--branco);
+                transition: all 0.4s;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.2); border-color: var(--turquesa); }
+
+            footer { margin-top: 60px; }
+
+            .btn-logout {
+                background: transparent;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                cursor: pointer;
+                margin-top: 30px;
+                font-size: 0.8rem;
+                opacity: 0.6;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="palmeira-bg">🌴</div>
+
+        <div class="main-container">
+            <div class="streak-container" id="streak-ui" style="display: none;">
+                <span class="fire-icon">🔥</span>
+                <span class="streak-text"><span id="streak-valor">0</span> DIAS SEGUIDOS</span>
+            </div>
+
+            <header>
+                <img src="img/elim01.png" alt="Elim Church" class="logo-img">
+                <h1>Elim Church</h1>
+                <p style="font-size: 1.2rem; opacity: 0.8;">CasaBlanca</p>
+                
+                <div class="saudacao-aluno" id="nome-aluno-display">Carregando jornada...</div>
+                <br>
+                <a href="perfil.html" class="btn-perfil">👤 Ver Meu Perfil</a>
+            </header>
+
+            <div class="card-palavra">
+                <h3>Palavra do Dia</h3>
+                <p id="texto-biblico">Carregando mensagem...</p>
+                <span id="ref-biblica">---</span>
+            </div>
+
+            <nav class="menu-grid">
+                <a href="./projeto-igreja/historia-elim.html" class="card">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🏛️</div>
+                    <h2>Nossa História</h2>
+                    <p>Conheça a visão e o propósito do Ministério.</p>
+                </a>
+                
+                <a href="ranking.html" class="card">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
+                    <h2>Ranking</h2>
+                    <p>Veja os alunos mais dedicados da semana.</p>
+                </a>
+
+                <a href="estudos.html" class="card">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">📚</div>
+                    <h2>Biblioteca</h2>
+                    <p>Estudos e cronologia bíblica.</p>
+                </a>
+                <a href="quiz.html" class="card">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🧩</div>
+                    <h2>Desafio Quiz</h2>
+                    <p>Teste seus conhecimentos bíblicos.</p>
+                </a>
+            </nav>
+
+            <footer>
+                <p>Elim Church CasaBlanca — "Onde há fontes e palmeiras."</p>
+                <button class="btn-logout" onclick="fazerLogout()">Sair do Sistema</button>
+            </footer>
+        </div>
+
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+        <script>
+            // CONFIGURAÇÃO FIREBASE
+            const firebaseConfig = {
+                apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+                authDomain: "elim-church-d2117.firebaseapp.com",
+                databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+                projectId: "elim-church-d2117",
+                storageBucket: "elim-church-d2117.firebasestorage.app",
+                messagingSenderId: "687076464234",
+                appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
+            // LISTA DE PALAVRAS (TODAS AS 70 MANTIDAS)
+            const listaVersiculos = [
+                { t: "O Senhor é o meu pastor, nada me faltará.", r: "Salmos 23:1" },
+                { t: "Tudo posso naquele que me fortalece.", r: "Filipenses 4:13" },
+                { t: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito.", r: "João 3:16" },
+                { t: "O Senhor te abençoe e te guarde.", r: "Números 6:24" },
+                { t: "Lâmpada para os meus pés é tua palavra e luz, para o meu caminho.", r: "Salmos 119:105" },
+                { t: "Deem graças ao Senhor, porque ele é bom; o seu amor dura para sempre.", r: "Salmos 136:1" },
+                { t: "Seja forte e corajoso! Não desanime, pois o Senhor estará com você.", r: "Josué 1:9" },
+                { t: "O Senhor é a minha luz e a minha salvação; de quem terei temor?", r: "Salmos 27:1" },
+                { t: "Em tudo dai graças, porque esta é a vontade de Deus em Cristo Jesus.", r: "1 Tessalonicenses 5:18" },
+                { t: "Confie no Senhor de todo o seu coração e não se apoie em seu próprio entendimento.", r: "Provérbios 3:5" },
+                { t: "O meu socorro vem do Senhor, que fez os céus e a terra.", r: "Salmos 121:2" },
+                { t: "Deleite-se no Senhor, e ele atenderá aos desejos do seu coração.", r: "Salmos 37:4" },
+                { t: "O nome do Senhor é uma torre forte; os justos correm para ela e estão seguros.", r: "Provérbios 18:10" },
+                { t: "Alegrem-se na esperança, sejam pacientes na tribulação, perseverem na oração.", r: "Romanos 12:12" },
+                { t: "Mas os que esperam no Senhor renovarão as suas forças.", r: "Isaías 40:31" },
+                { t: "Mil poderão cair ao seu lado, dez mil à sua direita, mas você não será atingido.", r: "Salmos 91:7" },
+                { t: "Tudo o que fizerem, façam de todo o coração, como para o Senhor.", r: "Colossenses 3:23" },
+                { t: "Pedis e dar-se-vos-á; buscai e achareis; batei e abrir-se-vos-á.", r: "Mateus 7:7" },
+                { t: "O Senhor lutará por vocês; tão-somente acalmem-se.", r: "Êxodo 14:14" },
+                { t: "Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos.", r: "Provérbios 16:3" },
+                { t: "O Senhor é bom, um refúgio em tempos de angústia. Ele cuida dos que nele confiam.", r: "Naum 1:7" },
+                { t: "Pois eu bem sei os planos que tenho para vós, diz o Senhor, planos de paz e não de mal.", r: "Jeremias 29:11" },
+                { t: "O coração ansioso deprime o homem, mas uma palavra bondosa o anima.", r: "Provérbios 12:25" },
+                { t: "Lancem sobre ele toda a sua ansiedade, porque ele tem cuidado de vocês.", r: "1 Pedro 5:7" },
+                { t: "Aquele que habita no abrigo do Altíssimo e descansa à sombra do Todo-poderoso.", r: "Salmos 91:1" },
+                { t: "O Senhor é a minha rocha, a minha fortaleza e o meu libertador.", r: "Salmos 18:2" },
+                { t: "A tua palavra é a verdade.", r: "João 17:17" },
+                { t: "Pois nada é impossível para Deus.", r: "Lucas 1:37" },
+                { t: "O agir de Deus é perfeito; a palavra do Senhor é comprovadamente verdadeira.", r: "Salmos 18:30" },
+                { t: "Deus é o nosso refúgio e a nossa fortaleza, auxílio sempre presente na adversidade.", r: "Salmos 46:1" },
+                { t: "Busquei o Senhor, e ele me respondeu; livrou-me de todos os meus temores.", r: "Salmos 34:4" },
+                { t: "A vontade de Deus é boa, perfeita e agradável.", r: "Romanos 12:2" },
+                { t: "Eu sou o caminho, a verdade e a vida. Ninguém vem ao Pai, a não ser por mim.", r: "João 14:6" },
+                { t: "Agrada-te do Senhor, e ele satisfará os desejos do teu coração.", r: "Salmos 37:4" },
+                { t: "Fui moço e agora sou velho, mas nunca vi o justo desamparado.", r: "Salmos 37:25" },
+                { t: "Clama a mim, e responder-te-ei, e anunciar-te-ei coisas grandes e firmes.", r: "Jeremias 33:3" },
+                { t: "O Senhor é a força do seu povo, a fortaleza de salvação para o seu ungido.", r: "Salmos 28:8" },
+                { t: "Bem-aventurado o homem que põe no Senhor a sua confiança.", r: "Salmos 40:4" },
+                { t: "O amor de Deus é derramado em nossos corações pelo Espírito Santo.", r: "Romanos 5:5" },
+                { t: "Grandes coisas fez o Senhor por nós, por isso estamos alegres.", r: "Salmos 126:3" },
+                { t: "O Senhor é o meu auxílio; não temerei. O que pode fazer-me o homem?", r: "Hebreus 13:6" },
+                { t: "A paz de Deus, que excede todo o entendimento, guardará os vossos corações.", r: "Filipenses 4:7" },
+                { t: "Toda a Escritura é inspirada por Deus e útil para o ensino.", r: "2 Timóteo 3:16" },
+                { t: "Escondi a tua palavra no meu coração, para eu não pecar contra ti.", r: "Salmos 119:11" },
+                { t: "A vossa palavra seja sempre agradável, temperada com sal.", r: "Colossenses 4:6" },
+                { t: "Alegrai-vos sempre no Senhor; outra vez digo, alegrai-vos.", r: "Filipenses 4:4" },
+                { t: "Combati o bom combate, acabei a carreira, guardei a fé.", r: "2 Timóteo 4:7" },
+                { t: "O temor do Senhor é o princípio da sabedoria.", r: "Provérbios 9:10" },
+                { t: "Sê fiel até à morte, e dar-te-ei a coroa da vida.", r: "Apocalipse 2:10" },
+                { t: "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.", r: "Mateus 11:28" },
+                { t: "Bem-aventurados os limpos de coração, porque eles verão a Deus.", r: "Mateus 5:8" },
+                { t: "O meu Deus, segundo as suas riquezas, suprirá todas as vossas necessidades.", r: "Filipenses 4:19" },
+                { t: "Eu sou o bom Pastor; o bom Pastor dá a sua vida pelas ovelhas.", r: "João 10:11" },
+                { t: "As misericórdias do Senhor são a causa de não sermos consumidos.", r: "Lamentações 3:22" },
+                { t: "Honra a teu pai e a tua mãe, para que se prolonguem os teus dias.", r: "Êxodo 20:12" },
+                { t: "Deus é amor.", r: "1 João 4:8" },
+                { t: "E conhecereis a verdade, e a verdade vos libertará.", r: "João 8:32" },
+                { t: "Porque para Deus nada é impossível.", r: "Lucas 1:37" },
+                { t: "O Senhor te guardará de todo o mal; ele guardará a tua alma.", r: "Salmos 121:7" },
+                { t: "Elevo os meus olhos para os montes; de onde vem o meu socorro?", r: "Salmos 121:1" },
+                { t: "Aquele que crê em mim, ainda que esteja morto, viverá.", r: "João 11:25" },
+                { t: "Buscai o Senhor enquanto se pode achar, invocai-o enquanto está perto.", r: "Isaías 55:6" },
+                { t: "O Senhor está perto dos que têm o coração quebrantado.", r: "Salmos 34:18" },
+                { t: "Criou Deus o homem à sua imagem.", r: "Gênesis 1:27" },
+                { t: "Vigiai e orai, para que não entreis em tentação.", r: "Mateus 26:41" },
+                { t: "A fé é o firme fundamento das coisas que se esperam.", r: "Hebreus 11:1" },
+                { t: "Pedi, e dar-se-vos-á; buscai, e encontrareis.", r: "Mateus 7:7" },
+                { t: "O Senhor é o meu braço forte e o meu escudo.", r: "Salmos 28:7" },
+                { t: "Pois a palavra de Deus é viva e eficaz.", r: "Hebreus 4:12" },
+                { t: "Bem-aventurados os pacificadores, porque eles serão chamados filhos de Deus.", r: "Mateus 5:9" }
+            ];
+
+            const nomeSalvo = localStorage.getItem('elim_aluno_nome');
+            const idSalvo = localStorage.getItem('elim_aluno_id');
+
+            // 1. ATUALIZAÇÃO: MOSTRAR NOME IMEDIATAMENTE
+            if (nomeSalvo) {
+                document.getElementById('nome-aluno-display').innerText = "Paz do Senhor, " + nomeSalvo + "!";
+            }
+
+            function buscarPalavraDoDia() {
+                const agora = new Date();
+                const inicio = new Date(agora.getFullYear(), 0, 0);
+                const diff = agora - inicio;
+                const umDia = 1000 * 60 * 60 * 24;
+                const diaDoAno = Math.floor(diff / umDia);
+
+                const indice = diaDoAno % listaVersiculos.length;
+                const selecionado = listaVersiculos[indice];
+
+                document.getElementById('texto-biblico').innerText = `"${selecionado.t}"`;
+                document.getElementById('ref-biblica').innerText = selecionado.r;
+            }
+
+            function processarFoguinho(id) {
+                const agora = new Date();
+                const hojeFormatado = agora.toLocaleDateString('pt-BR');
+                const acessoCompleto = hojeFormatado + " às " + agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+                
+                const ref = database.ref('alunos/' + id);
+                
+                buscarPalavraDoDia();
+
+                ref.once('value').then((snap) => {
+                    const aluno = snap.val();
+                    if (!aluno) return;
+
+                    // Sincroniza nome caso mude no Admin
+                    if (aluno.nome) {
+                        document.getElementById('nome-aluno-display').innerText = "Paz do Senhor, " + aluno.nome + "!";
+                        localStorage.setItem('elim_aluno_nome', aluno.nome);
+                    }
+
+                    let streak = (aluno && aluno.streak) ? aluno.streak : { count: 0, ultima: "" };
+                    
+                    if (streak.ultima !== hojeFormatado) {
+                        const ontem = new Date(); 
+                        ontem.setDate(ontem.getDate() - 1);
+                        
+                        streak.count = (streak.ultima === ontem.toLocaleDateString('pt-BR')) ? streak.count + 1 : 1;
+                        streak.ultima = hojeFormatado;
+                        
+                        ref.update({ 
+                            streak: streak, 
+                            ultimoAcesso: acessoCompleto 
+                        });
+                    } else {
+                        ref.update({ ultimoAcesso: acessoCompleto });
+                    }
+                    
+                    document.getElementById('streak-valor').innerText = streak.count;
+                    document.getElementById('streak-ui').style.display = 'flex';
                 });
             }
-        }
 
-        function fazerLogout() {
-            localStorage.removeItem('elim_aluno_id');
-            localStorage.removeItem('elim_aluno_nome');
-            localStorage.removeItem('elim_tipo_usuario');
-            window.location.href = "cadastro.html";
-        }
-    </script>
+            // INICIA O PROCESSO SE TIVER O ID
+            if (idSalvo) {
+                processarFoguinho(idSalvo);
+            }
 
-</body>
-</html>
+            function fazerLogout() { 
+                localStorage.clear(); 
+                window.location.href = "cadastro.html"; 
+            }
+        </script>
+    </body>
+    </html>

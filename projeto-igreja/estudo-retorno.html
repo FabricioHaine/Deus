@@ -14,15 +14,57 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #009688; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #e0f2f1; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #b2dfdb; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #f2faf9; padding: 20px; border-radius: 10px; border-left: 5px solid #009688; margin-top: 30px; }
-        .btn-voltar { display: inline-block; margin-top: 40px; text-decoration: none; color: #1a2a6c; font-weight: bold; border: 2px solid #1a2a6c; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
-        .btn-voltar:hover { background: #1a2a6c; color: white; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #f2faf9; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #009688; 
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #009688;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #00796b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 150, 136, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 17: Mãos à Obra</p>
+        <p>Capítulo 18: Mãos à Obra</p>
     </header>
     <div class="content">
         <div class="verse-box">
@@ -33,10 +75,52 @@
         <p>Deus cumpriu Sua promessa e moveu o coração de reis poderosos para deixar o povo voltar. Liderados por homens como Zorobabel, Esdras e Neemias, eles voltaram para uma Jerusalém destruída. O desafio agora não era mais o exílio, mas a reconstrução dos muros e, principalmente, do coração do povo.</p>
         <h2>Reconstruindo com Propósito</h2>
         <p>Neemias reconstruiu os muros em tempo recorde, mesmo enfrentando muita oposição e deboche. Esdras trouxe a Palavra de Deus de volta ao centro da vida deles. Essa fase nos mostra que Deus é especialista em restaurar o que foi quebrado e dar dignidade para quem estava humilhado.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> Às vezes a nossa vida espiritual ou emocional está "em ruínas". A história do retorno nos diz que nunca é tarde para recomeçar. Deus levanta pessoas e dá forças para a gente reconstruir cada área da nossa vida, tijolo por tijolo, com a ajuda dEle.
         </div>
-        <center><a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a></center>
+
+        <center>
+            <button onclick="marcarComoConcluido(18)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Maravilha! Capítulo 18 concluído. Deus é o mestre da reconstrução!");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

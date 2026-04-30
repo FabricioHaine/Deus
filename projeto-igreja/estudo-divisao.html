@@ -14,15 +14,57 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #e67e22; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #fdf5ef; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #f5cba7; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #fffaf5; padding: 20px; border-radius: 10px; border-left: 5px solid #e67e22; margin-top: 30px; }
-        .btn-voltar { display: inline-block; margin-top: 40px; text-decoration: none; color: #1a2a6c; font-weight: bold; border: 2px solid #1a2a6c; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
-        .btn-voltar:hover { background: #1a2a6c; color: white; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #fffaf5; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #e67e22; 
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #e67e22;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #d35400;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 14: Um Povo Dividido</p>
+        <p>Capítulo 15: Um Povo Dividido</p>
     </header>
     <div class="content">
         <div class="verse-box">
@@ -33,10 +75,52 @@
         <p>Após a morte de Salomão, o orgulho e as decisões erradas de seus sucessores fizeram com que o reino se dividisse. O que era uma nação unida se tornou duas: Israel, ao Norte, e Judá, ao Sul. Essa separação trouxe fraqueza, guerras entre irmãos e um afastamento ainda maior de Deus.</p>
         <h2>As Consequências das Escolhas</h2>
         <p>Muitos reis que assumiram o trono preferiram adorar deuses falsos e ignorar os conselhos divinos. A divisão não foi apenas geográfica, foi espiritual. Quando o povo parou de olhar para a mesma direção (para Deus), eles se perderam no caminho.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> A união faz muita falta, né? Quando a gente deixa o orgulho falar mais alto ou foca só no que a gente quer, a gente acaba dividindo amizades, famílias e até a igreja. A lição aqui é clara: se não estivermos unidos em Deus, a gente acaba se enfraquecendo sozinho.
         </div>
-        <center><a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a></center>
+
+        <center>
+            <button onclick="marcarComoConcluido(15)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Capítulo 15 concluído! Lembre-se: a união é a nossa força em Deus.");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

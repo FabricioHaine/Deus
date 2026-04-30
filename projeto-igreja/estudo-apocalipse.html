@@ -14,15 +14,57 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #f1c40f; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #fef9e7; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #f9e79f; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #fffdf5; padding: 20px; border-radius: 10px; border-left: 5px solid #f1c40f; margin-top: 30px; }
-        .btn-voltar { display: inline-block; margin-top: 40px; text-decoration: none; color: #1a2a6c; font-weight: bold; border: 2px solid #1a2a6c; padding: 10px 25px; border-radius: 25px; transition: 0.3s; }
-        .btn-voltar:hover { background: #1a2a6c; color: white; }
+
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #fffdf5; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #f1c40f; 
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
+        .btn-concluir {
+            display: inline-block;
+            background: #f1c40f;
+            color: #1a2a6c;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+        }
+
+        .btn-concluir:hover {
+            background: #d4ac0d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+        }
+
+        .btn-voltar { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            color: #1a2a6c; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <header>
         <h1>Cronologia Bíblica</h1>
-        <p>Capítulo 21: O Final que é um Recomeço</p>
+        <p>Capítulo 24: O Final que é um Recomeço</p>
     </header>
     <div class="content">
         <div class="verse-box">
@@ -33,10 +75,52 @@
         <p>A Bíblia termina com uma visão gloriosa: o mal, o sofrimento e a morte serão destruídos para sempre. O livro de Apocalipse não é sobre medo, mas sobre esperança. Ele mostra que Jesus voltará para colocar todas as coisas no lugar e que a história da humanidade termina com Deus vencendo e morando com a gente.</p>
         <h2>O Novo Céu e a Nova Terra</h2>
         <p>Toda a criação será restaurada. Não haverá mais injustiça nem solidão. É o retorno ao plano original que vimos lá no Gênesis, mas agora de uma forma muito mais incrível e eterna. A história que começou em um jardim termina em uma cidade maravilhosa onde a presença de Deus ilumina tudo.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> O mundo às vezes parece caótico e assustador, né? Mas a Bíblia nos dá a garantia de que o final da história é bom. Essa esperança nos faz viver com coragem hoje, sabendo que o que a gente sofre agora não se compara com a alegria que Deus preparou para o nosso futuro eterno.
         </div>
-        <center><a href="../estudos.html" class="btn-voltar">← Voltar para Estudos</a></center>
+
+        <center>
+            <button onclick="marcarComoConcluido(24)" class="btn-concluir">CONCLUIR JORNADA ✓</button>
+            <br>
+            <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
+        </center>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
+            authDomain: "elim-church-d2117.firebaseapp.com",
+            databaseURL: "https://elim-church-d2117-default-rtdb.firebaseio.com",
+            projectId: "elim-church-d2117",
+            storageBucket: "elim-church-d2117.firebasestorage.app",
+            messagingSenderId: "687076464234",
+            appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function marcarComoConcluido(capituloAtual) {
+            const idAluno = localStorage.getItem('elim_aluno_id');
+            if (!idAluno) return;
+
+            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+
+            refProgresso.once('value').then((snap) => {
+                let progressoNoBanco = snap.val() || 1;
+                if (capituloAtual >= progressoNoBanco) {
+                    refProgresso.set(capituloAtual + 1).then(() => {
+                        alert("Parabéns! Você concluiu toda a Cronologia Bíblica. Que essa jornada transforme sua vida para sempre!");
+                        window.location.href = "../estudos.html";
+                    });
+                } else {
+                    window.location.href = "../estudos.html";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
