@@ -61,7 +61,7 @@
             margin-bottom: 30px;
         }
 
-        /* --- NOVO ESTILO DO BOTÃO CONCLUIR --- */
+        /* --- ESTILO DO BOTÃO CONCLUIR --- */
         .btn-concluir {
             display: inline-block;
             background: #4caf50;
@@ -126,6 +126,7 @@
         </center>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -139,14 +140,18 @@
             messagingSenderId: "687076464234",
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização do Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
 
         function marcarComoConcluido(capituloAtual) {
             const idAluno = localStorage.getItem('elim_aluno_id');
             
             if (!idAluno) {
-                alert("Erro: Aluno não identificado.");
+                alert("Erro: Aluno não identificado. Por favor, faça login novamente.");
                 return;
             }
 
@@ -155,18 +160,21 @@
             refProgresso.once('value').then((snap) => {
                 let progressoNoBanco = snap.val() || 1;
 
-                // Só atualiza se o aluno estiver terminando o capítulo que ele realmente está
-                // Se ele re-ler o Cap 1 mas já estiver no 5, não faz nada.
+                // Só atualiza se o aluno estiver avançando no curso
                 if (capituloAtual >= progressoNoBanco) {
                     const novoProgresso = capituloAtual + 1;
                     refProgresso.set(novoProgresso).then(() => {
-                        alert("Parabéns! Capítulo concluído. Próximo liberado!");
+                        alert("Parabéns! Capítulo 01 concluído. Próximo capítulo liberado!");
                         window.location.href = "../estudos.html";
+                    }).catch((error) => {
+                        console.error("Erro ao salvar progresso:", error);
                     });
                 } else {
-                    // Se ele já tinha concluído antes, apenas volta para a lista
+                    // Se já concluiu anteriormente, apenas retorna para a lista
                     window.location.href = "../estudos.html";
                 }
+            }).catch((error) => {
+                console.error("Erro ao acessar banco de dados:", error);
             });
         }
     </script>

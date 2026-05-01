@@ -14,7 +14,16 @@
         h2 { color: #1a2a6c; margin: 30px 0 15px; border-left: 5px solid #e67e22; padding-left: 15px; line-height: 1.2; }
         .verse-box { background: #fdf5ef; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #f5cba7; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
-        .highlight-jovem { background: #fffaf5; padding: 20px; border-radius: 10px; border-left: 5px solid #e67e22; margin-top: 30px; margin-bottom: 30px; }
+        
+        /* --- PADRÃO CONEXÃO JOVEM --- */
+        .highlight-jovem { 
+            background: #fffaf5; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid #e67e22; 
+            margin-top: 30px; 
+            margin-bottom: 30px; 
+        }
 
         /* --- ESTILO DO BOTÃO CONCLUIR --- */
         .btn-concluir {
@@ -66,6 +75,7 @@
         <p>A promessa feita a Abraão passou para seu filho Isaque e seu neto Jacó. Essa família não era perfeita; eles tinham medos, brigas e defeitos, mas Deus continuou trabalhando através deles. Isso nos mostra que Deus não procura pessoas perfeitas, mas pessoas dispostas a caminhar com Ele.</p>
         <h2>Do Sofrimento ao Palácio</h2>
         <p>A história chega a José, que foi vendido como escravo pelos próprios irmãos. Mesmo no fundo do poço e na prisão, José não abandonou sua fé. Deus usou toda aquela dor para salvar o povo da fome no futuro, provando que Ele pode transformar situações ruins em algo extraordinário.</p>
+        
         <div class="highlight-jovem">
             <strong>Conexão Jovem:</strong> Às vezes passamos por situações que parecem não fazer sentido ou que machucam muito. A história de José nos ensina que Deus está cuidando dos detalhes nos bastidores. O que parece ser o fim pode ser apenas o preparo para algo muito maior que Ele planejou para você.
         </div>
@@ -77,6 +87,7 @@
         </center>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -90,21 +101,32 @@
             messagingSenderId: "687076464234",
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização do Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
 
         function marcarComoConcluido(capituloAtual) {
             const idAluno = localStorage.getItem('elim_aluno_id');
-            if (!idAluno) return;
+            if (!idAluno) {
+                alert("Identificação do aluno não encontrada. Por favor, faça login novamente.");
+                return;
+            }
 
             const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
 
             refProgresso.once('value').then((snap) => {
                 let progressoNoBanco = snap.val() || 1;
+                
+                // Atualiza o progresso apenas se o aluno estiver avançando
                 if (capituloAtual >= progressoNoBanco) {
                     refProgresso.set(capituloAtual + 1).then(() => {
                         alert("Muito bem! Capítulo 07 concluído.");
                         window.location.href = "../estudos.html";
+                    }).catch((error) => {
+                        console.error("Erro ao salvar progresso:", error);
                     });
                 } else {
                     window.location.href = "../estudos.html";

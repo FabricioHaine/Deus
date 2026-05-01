@@ -87,6 +87,7 @@
         </center>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -100,21 +101,32 @@
             messagingSenderId: "687076464234",
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização com proteção contra múltiplas instâncias
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
 
         function marcarComoConcluido(capituloAtual) {
             const idAluno = localStorage.getItem('elim_aluno_id');
-            if (!idAluno) return;
+            if (!idAluno) {
+                alert("Identificação não encontrada. Por favor, faça login novamente.");
+                return;
+            }
 
             const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
 
             refProgresso.once('value').then((snap) => {
                 let progressoNoBanco = snap.val() || 1;
+                
+                // Se o aluno está concluindo o capítulo atual ou um novo
                 if (capituloAtual >= progressoNoBanco) {
                     refProgresso.set(capituloAtual + 1).then(() => {
                         alert("Sensacional! Capítulo 19 concluído. Jesus é a nossa maior esperança!");
                         window.location.href = "../estudos.html";
+                    }).catch((error) => {
+                        console.error("Erro ao salvar progresso:", error);
                     });
                 } else {
                     window.location.href = "../estudos.html";

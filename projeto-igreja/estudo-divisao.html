@@ -100,23 +100,36 @@
             messagingSenderId: "687076464234",
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização protegida
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
 
         function marcarComoConcluido(capituloAtual) {
             const idAluno = localStorage.getItem('elim_aluno_id');
-            if (!idAluno) return;
+            if (!idAluno) {
+                alert("Erro: Estudante não identificado. Faça login para salvar seu progresso.");
+                return;
+            }
 
             const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
 
             refProgresso.once('value').then((snap) => {
                 let progressoNoBanco = snap.val() || 1;
+                
+                // Se o aluno está terminando este capítulo pela primeira vez
                 if (capituloAtual >= progressoNoBanco) {
                     refProgresso.set(capituloAtual + 1).then(() => {
                         alert("Capítulo 15 concluído! Lembre-se: a união é a nossa força em Deus.");
                         window.location.href = "../estudos.html";
+                    }).catch((error) => {
+                        console.error("Erro ao salvar:", error);
+                        alert("Erro ao salvar progresso.");
                     });
                 } else {
+                    // Se já concluiu, apenas retorna
                     window.location.href = "../estudos.html";
                 }
             });

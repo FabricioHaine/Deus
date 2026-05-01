@@ -7,8 +7,6 @@
     <link rel="icon" type="image/png" href="img/elim01.png">
     
     <script>
-        // SEGURANÇA: Se não houver login, manda para o cadastro.
-        // Se for o Admin Master, redireciona para a página dele.
         const userType = localStorage.getItem('elim_tipo_usuario');
         const userId = localStorage.getItem('elim_aluno_id');
 
@@ -69,20 +67,6 @@
         }
         .avatar-circulo:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--turquesa); }
 
-        .progresso-container { margin: 20px 0; text-align: left; }
-        .progresso-label { font-size: 0.8rem; margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .barra-fundo {
-            width: 100%; height: 12px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px; overflow: hidden;
-        }
-        .barra-preenchida {
-            width: 0%; height: 100%;
-            background: var(--turquesa);
-            transition: width 1s ease-in-out;
-            box-shadow: 0 0 10px var(--turquesa);
-        }
-
         .conquistas-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -142,7 +126,6 @@
         }
         .btn-voltar { background: var(--turquesa); color: var(--azul-escuro); }
         .btn-sair { background: rgba(255, 255, 255, 0.1); color: var(--branco); border: 1px solid rgba(255,255,255,0.2); }
-        .btn-sair:hover { background: #ff4b2b; border-color: #ff4b2b; }
     </style>
 </head>
 <body>
@@ -153,16 +136,6 @@
         
         <h2 id="perfil-nome" style="margin-top: 10px;">Carregando...</h2>
         <p style="opacity: 0.5; font-size: 0.75rem;" id="perfil-id">Matrícula: --</p>
-
-        <div class="progresso-container">
-            <div class="progresso-label">
-                <span>Caminho do Aprendizado</span>
-                <span id="texto-progresso">0/24</span>
-            </div>
-            <div class="barra-fundo">
-                <div class="barra-preenchida" id="barra-progresso"></div>
-            </div>
-        </div>
 
         <div class="stats-grid">
             <div class="stat-card">
@@ -226,7 +199,6 @@
 
         const idUsuario = localStorage.getItem('elim_aluno_id');
 
-        // Carregar dados em tempo real do Firebase
         if (idUsuario) {
             database.ref('alunos/' + idUsuario).on('value', (snapshot) => {
                 const dados = snapshot.val();
@@ -239,12 +211,7 @@
                     document.getElementById('perfil-streak').innerText = streakAtual + " Dias";
                     document.getElementById('perfil-acesso').innerText = dados.ultimoAcesso ? dados.ultimoAcesso.split(' às ')[0] : "--/--";
 
-                    const licoes = dados.licoesConcluidas ? dados.licoesConcluidas.length - 1 : 0; // -1 para ignorar o [0] inicial
-                    const porcentagem = Math.min((licoes / 24) * 100, 100);
-                    document.getElementById('texto-progresso').innerText = licoes + "/24";
-                    document.getElementById('barra-progresso').style.width = porcentagem + "%";
-
-                    // Ativação das Medalhas
+                    // Medalhas
                     if (dados.medalhas?.primeiros_passos) document.getElementById('med-passos').classList.add('desbloqueada');
                     if (streakAtual >= 7) document.getElementById('med-fiel').classList.add('desbloqueada');
                     if (streakAtual >= 30) document.getElementById('med-coluna').classList.add('desbloqueada');
@@ -255,12 +222,9 @@
 
         function abrirModal() { document.getElementById('modalAvatar').style.display = 'flex'; }
         function fecharModal() { document.getElementById('modalAvatar').style.display = 'none'; }
-        
         function mudarAvatar(emoji) {
-            database.ref('alunos/' + idUsuario).update({ avatar: emoji })
-            .then(() => fecharModal());
+            database.ref('alunos/' + idUsuario).update({ avatar: emoji }).then(() => fecharModal());
         }
-
         function fazerLogout() {
             localStorage.clear();
             window.location.href = "login.html";

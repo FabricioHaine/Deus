@@ -103,21 +103,30 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        function marcarComoConcluido(capituloAtual) {
+        function marcarComoConcluido(numeroLicao) {
             const idAluno = localStorage.getItem('elim_aluno_id');
             if (!idAluno) return;
 
-            const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
+            // Referência para o array de lições concluídas usado no Perfil
+            const refLicoes = database.ref('alunos/' + idAluno + '/licoesConcluidas');
 
-            refProgresso.once('value').then((snap) => {
-                let progressoNoBanco = snap.val() || 1;
-                if (capituloAtual >= progressoNoBanco) {
-                    refProgresso.set(capituloAtual + 1).then(() => {
+            refLicoes.once('value').then((snap) => {
+                let licoes = snap.val();
+                
+                if (!Array.isArray(licoes)) {
+                    licoes = [0];
+                }
+
+                // Só adiciona se o capítulo 23 ainda não estiver marcado
+                if (!licoes.includes(numeroLicao)) {
+                    licoes.push(numeroLicao);
+                    
+                    refLicoes.set(licoes).then(() => {
                         alert("Muito bem! Capítulo 23 concluído. Continue crescendo na fé!");
-                        window.location.href = "../estudos.html";
+                        window.location.href = "perfil.html"; 
                     });
                 } else {
-                    window.location.href = "../estudos.html";
+                    window.location.href = "perfil.html";
                 }
             });
         }

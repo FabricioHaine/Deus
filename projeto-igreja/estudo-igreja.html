@@ -87,6 +87,7 @@
         </center>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -100,23 +101,35 @@
             messagingSenderId: "687076464234",
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização Segura do Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
 
         function marcarComoConcluido(capituloAtual) {
             const idAluno = localStorage.getItem('elim_aluno_id');
-            if (!idAluno) return;
+            if (!idAluno) {
+                alert("Identificação do aluno não encontrada. Faça o login novamente.");
+                return;
+            }
 
             const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
 
             refProgresso.once('value').then((snap) => {
                 let progressoNoBanco = snap.val() || 1;
+                
+                // Se o aluno estiver no capítulo correto para avançar
                 if (capituloAtual >= progressoNoBanco) {
                     refProgresso.set(capituloAtual + 1).then(() => {
                         alert("Aleluia! Capítulo 22 concluído. O Espírito Santo está com você!");
                         window.location.href = "../estudos.html";
+                    }).catch((error) => {
+                        console.error("Erro ao salvar progresso:", error);
                     });
                 } else {
+                    // Se ele já tiver passado desse ponto, apenas volta para a lista
                     window.location.href = "../estudos.html";
                 }
             });

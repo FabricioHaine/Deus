@@ -15,7 +15,6 @@
         .verse-box { background: #fef5e7; border-radius: 8px; padding: 25px; font-style: italic; margin-bottom: 30px; border: 1px solid #fad7a0; text-align: center; font-size: 1.15rem; }
         p { margin-bottom: 20px; font-size: 1.1rem; text-align: justify; }
 
-        /* --- PADRÃO CONEXÃO JOVEM --- */
         .highlight-jovem { 
             background: #fffaf0; 
             padding: 20px; 
@@ -25,7 +24,6 @@
             margin-bottom: 30px;
         }
 
-        /* --- ESTILO DO BOTÃO CONCLUIR --- */
         .btn-concluir {
             display: inline-block;
             background: #f39c12;
@@ -87,6 +85,7 @@
         </center>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -100,25 +99,38 @@
             messagingSenderId: "687076464234",
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
-        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização Segura
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const database = firebase.database();
 
         function marcarComoConcluido(capituloAtual) {
             const idAluno = localStorage.getItem('elim_aluno_id');
-            if (!idAluno) return;
+            if (!idAluno) {
+                alert("Erro: Aluno não identificado. Por favor, faça login novamente.");
+                return;
+            }
 
             const refProgresso = database.ref('alunos/' + idAluno + '/progresso');
 
             refProgresso.once('value').then((snap) => {
                 let progressoNoBanco = snap.val() || 1;
+                
+                // Se o aluno está concluindo o capítulo atual pela primeira vez
                 if (capituloAtual >= progressoNoBanco) {
                     refProgresso.set(capituloAtual + 1).then(() => {
                         alert("Parabéns! Capítulo 11 concluído. Continue firme na jornada!");
                         window.location.href = "../estudos.html";
                     });
                 } else {
+                    // Se já concluiu antes, apenas volta para a lista
                     window.location.href = "../estudos.html";
                 }
+            }).catch((error) => {
+                console.error("Erro ao acessar o banco de dados:", error);
+                alert("Ocorreu um erro ao salvar seu progresso.");
             });
         }
     </script>
