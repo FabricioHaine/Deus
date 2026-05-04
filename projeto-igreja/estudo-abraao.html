@@ -77,10 +77,12 @@
         </center>
     </div>
 
+    <!-- Scripts do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script>
+        // Configuração do seu Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDua2xE37-guB4SeE5yDgb3A_P3DTCWwQ0",
             authDomain: "elim-church-d2117.firebaseapp.com",
@@ -95,29 +97,45 @@
 
         function marcarComoConcluido(numeroDaLicao) {
             const idAluno = localStorage.getItem('elim_aluno_id');
+            
             if (!idAluno) {
-                alert("Erro: Faça login novamente.");
+                alert("Erro: Aluno não identificado. Faça login novamente.");
+                window.location.href = "../login.html";
                 return;
             }
 
-            // Acessa a lista de lições concluídas para fazer a barra do perfil subir
-            const refLicoes = database.ref('alunos/' + idAluno + '/licoesConcluidas');
+            // Referência direta ao nó do aluno para atualizar múltiplos campos
+            const refUsuario = database.ref('alunos/' + idAluno);
 
-            refLicoes.once('value').then((snap) => {
-                let licoes = snap.val() || [0];
+            refUsuario.once('value').then((snap) => {
+                const dados = snap.val() || {};
+                let licoes = dados.licoesConcluidas || [0];
+                let progressoAtual = dados.progresso || 1;
 
-                // Verifica se o capítulo já está na lista para não duplicar
+                // 1. Adiciona a lição à lista de concluídas (se não existir)
                 if (!licoes.includes(numeroDaLicao)) {
                     licoes.push(numeroDaLicao);
-                    
-                    refLicoes.set(licoes).then(() => {
-                        alert("Parabéns! Capítulo concluído.");
-                        window.location.href = "perfil.html"; // Vai para o perfil para ver o progresso
-                    });
-                } else {
-                    // Se já concluiu antes, apenas volta para o perfil
-                    window.location.href = "perfil.html";
                 }
+
+                // 2. Libera o próximo capítulo (Capítulo 7)
+                // Só aumentamos se o aluno estiver concluindo a lição de maior nível que ele possui
+                if (numeroDaLicao >= progressoAtual) {
+                    progressoAtual = numeroDaLicao + 1;
+                }
+
+                // 3. Salva no banco de dados usando update para não sobrescrever outros dados
+                return refUsuario.update({
+                    licoesConcluidas: licoes,
+                    progresso: progressoAtual
+                });
+
+            }).then(() => {
+                alert("Capítulo concluído com sucesso!");
+                // Redireciona para a página de estudos que está uma pasta acima
+                window.location.href = "../estudos.html"; 
+            }).catch((error) => {
+                console.error("Erro no Firebase:", error);
+                alert("Ocorreu um erro ao salvar seu progresso.");
             });
         }
     </script>

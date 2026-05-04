@@ -100,40 +100,46 @@
             appId: "1:687076464234:web:972b0d7b6b9a4270b71c13"
         };
 
-        // Inicializa o Firebase apenas se ainda não foi inicializado
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const database = firebase.database();
 
-        function marcarComoConcluido(numeroLicao) {
+        function marcarComoConcluido(numeroDaLicao) {
             const idAluno = localStorage.getItem('elim_aluno_id');
+            
             if (!idAluno) {
-                alert("Erro: ID do aluno não encontrado. Faça login novamente.");
+                alert("Erro: Faça login novamente.");
+                window.location.href = "../login.html";
                 return;
             }
 
-            const refLicoes = database.ref('alunos/' + idAluno + '/licoesConcluidas');
+            const refUsuario = database.ref('alunos/' + idAluno);
 
-            refLicoes.once('value').then((snap) => {
-                let licoes = snap.val();
+            refUsuario.once('value').then((snap) => {
+                const dados = snap.val() || {};
+                let licoes = dados.licoesConcluidas || [0];
                 
-                if (!Array.isArray(licoes)) {
-                    licoes = [0];
+                // 1. Adiciona a lição final à lista se não existir
+                if (!licoes.includes(numeroDaLicao)) {
+                    licoes.push(numeroDaLicao);
                 }
 
-                if (!licoes.includes(numeroLicao)) {
-                    licoes.push(numeroLicao);
-                    
-                    refLicoes.set(licoes).then(() => {
-                        alert("Parabéns! Você concluiu toda a Cronologia Bíblica!");
-                        window.location.href = "perfil.html"; 
-                    }).catch(error => {
-                        console.error("Erro ao salvar:", error);
-                    });
-                } else {
-                    window.location.href = "perfil.html";
-                }
+                // 2. Atualiza o banco de dados
+                // Como é o último capítulo, mantemos o progresso em 24 ou 
+                // podemos criar um status "concluiuTudo: true" se você preferir no futuro.
+                return refUsuario.update({
+                    licoesConcluidas: licoes,
+                    progresso: 24 
+                });
+
+            }).then(() => {
+                alert("Parabéns! Você concluiu toda a jornada da Cronologia Bíblica! 🎉");
+                // 3. Redirecionamento corrigido: usa ../ para sair da pasta de capítulos
+                window.location.href = "../perfil.html"; 
+            }).catch((error) => {
+                console.error("Erro ao salvar finalização:", error);
+                alert("Ocorreu um erro ao salvar sua conclusão.");
             });
         }
     </script>

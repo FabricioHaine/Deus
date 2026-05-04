@@ -81,12 +81,14 @@
         </div>
 
         <center>
+            <!-- Concluindo a lição 23 -->
             <button onclick="marcarComoConcluido(23)" class="btn-concluir">CONCLUIR CAPÍTULO ✓</button>
             <br>
             <a href="../estudos.html" class="btn-voltar">Voltar sem concluir</a>
         </center>
     </div>
 
+    <!-- Scripts do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -103,31 +105,44 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        function marcarComoConcluido(numeroLicao) {
+        function marcarComoConcluido(numeroDaLicao) {
             const idAluno = localStorage.getItem('elim_aluno_id');
-            if (!idAluno) return;
+            
+            if (!idAluno) {
+                alert("Sessão expirada. Por favor, faça login novamente.");
+                window.location.href = "../login.html";
+                return;
+            }
 
-            // Referência para o array de lições concluídas usado no Perfil
-            const refLicoes = database.ref('alunos/' + idAluno + '/licoesConcluidas');
+            const refUsuario = database.ref('alunos/' + idAluno);
 
-            refLicoes.once('value').then((snap) => {
-                let licoes = snap.val();
-                
-                if (!Array.isArray(licoes)) {
-                    licoes = [0];
+            refUsuario.once('value').then((snap) => {
+                const dados = snap.val() || {};
+                let licoes = dados.licoesConcluidas || [0];
+                let progressoAtual = dados.progresso || 1;
+
+                // Adiciona lição 23 na lista
+                if (!licoes.includes(numeroDaLicao)) {
+                    licoes.push(numeroDaLicao);
                 }
 
-                // Só adiciona se o capítulo 23 ainda não estiver marcado
-                if (!licoes.includes(numeroLicao)) {
-                    licoes.push(numeroLicao);
-                    
-                    refLicoes.set(licoes).then(() => {
-                        alert("Muito bem! Capítulo 23 concluído. Continue crescendo na fé!");
-                        window.location.href = "perfil.html"; 
-                    });
-                } else {
-                    window.location.href = "perfil.html";
+                // Libera lição 24 (O progresso vai para 24)
+                if (numeroDaLicao >= progressoAtual) {
+                    progressoAtual = numeroDaLicao + 1;
                 }
+
+                return refUsuario.update({
+                    licoesConcluidas: licoes,
+                    progresso: progressoAtual
+                });
+
+            }).then(() => {
+                alert("Incrível! Você está quase terminando a trilha.");
+                // Redireciona para a lista de estudos para ver o desbloqueio do Cap 24
+                window.location.href = "../estudos.html"; 
+            }).catch((error) => {
+                console.error("Erro no Firebase:", error);
+                alert("Erro ao salvar progresso.");
             });
         }
     </script>
